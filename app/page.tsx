@@ -13,11 +13,21 @@ import { FULL_SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: `${shop.name} | รถมือสองลำปาง ราคาดี คุณภาพเยี่ยม`,
-  description: `${shop.tagline} เปิดทุกวัน ${shop.hours} โทร ${shop.phone} LINE ${shop.line}`,
+  description: `${shop.tagline} รถมือสองลำปาง คัดสรรคุณภาพ เปิดทุกวัน ${shop.hours} โทร ${shop.phone} LINE ${shop.line}`,
+  keywords: [
+    "รถมือสองลำปาง",
+    "รถมือสอง",
+    "ลำปาง",
+    "รถมือสองราคาดี",
+    "เต็นท์รถมือสองลำปาง",
+    shop.name,
+  ],
   openGraph: {
     title: `${shop.name} | รถมือสองลำปาง`,
     description: shop.tagline,
     url: FULL_SITE_URL,
+    locale: "th_TH",
+    type: "website",
   },
   alternates: {
     canonical: "/",

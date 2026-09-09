@@ -11,7 +11,9 @@
 | หน้า | คำอธิบาย |
 |------|----------|
 | `/` | หน้าแรก — hero, รถในร้าน, โปรโมชั่น, ขั้นตอนซื้อ, ติดต่อ |
-| `/cars/[slug]/` | รายละเอียดรถแต่ละคัน (ลิงก์จากหน้าแรก) |
+| `/cars/[slug]/` | รายละเอียดรถแต่ละคัน (SEO URL สะอาด) |
+| `/cars/view/?slug=` | fallback สำหรับรถที่เพิ่มหลัง deploy ล่าสุด |
+| `/dashboard/` | แดชบอร์ดจัดการรถ (mock admin, Supabase) |
 | `/cars/` | redirect ไป `/#cars` บนหน้าแรก |
 
 ## แก้ไขข้อมูลร้านและรถ
@@ -20,9 +22,30 @@
 
 แก้ชื่อร้าน, ที่อยู่, เวลาเปิด, เบอร์โทร, LINE, ขั้นตอนซื้อ ฯลฯ
 
-### ข้อมูลรถ (`data/cars.ts`)
+### ข้อมูลรถ (Supabase + seed)
 
-เพิ่ม/แก้/ลบรถในอาร์เรย์ `cars` — แต่ละคันต้องมี `slug` ที่ไม่ซ้ำกัน ตั้ง `featured: true` สำหรับรถแนะนำ และ `sold: true` สำหรับรถที่ขายแล้ว
+- **แหล่งข้อมูลจริง:** ตาราง `public.cars` ใน Supabase (แก้ผ่าน `/dashboard/`)
+- **Seed:** `data/cars.ts` ใช้เป็น fallback ตอน build ถ้า Supabase ล้มเหลว
+- **รูปภาพ:** อัปโหลดไป bucket `car-images` ผ่านแดชบอร์ด
+
+### SEO และ static pages
+
+ตอน build GitHub Actions จะดึงรถจาก Supabase แล้วสร้าง HTML จริงที่ `/cars/<slug>/` + `sitemap.xml`
+
+- รถที่เพิ่มในแดชบอร์ด **หลัง** deploy ล่าสุด จะยังไม่มีหน้า SEO จนกว่าจะ push/redeploy
+- ระหว่างรอ deploy ใช้ `/cars/view/?slug=...` ได้
+- หลัง push ไป `main` workflow จะ rebuild อัตโนมัติ
+
+### Environment variables
+
+คัดลอกจาก `.env.example`:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://kxbeofqiahloeqkillvy.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
+
+ค่าเหล่านี้ถูก bake ใน GitHub Actions workflow สำหรับ Pages deploy (anon key เท่านั้น — ไม่ใช้ service_role)
 
 ## พัฒนาในเครื่อง
 

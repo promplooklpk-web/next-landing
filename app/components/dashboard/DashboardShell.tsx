@@ -40,7 +40,8 @@ export function DashboardShell({ title, children, action }: DashboardShellProps)
       </header>
       <main className="mx-auto max-w-5xl px-4 py-6 md:px-6 md:py-8">
         <p className="mb-4 text-xs text-muted md:mb-6">
-          {shop.name} · ข้อมูลจาก Supabase
+          {shop.name} · ข้อมูลจาก Supabase · รถใหม่จะแสดงหน้า SEO หลัง deploy
+          GitHub Pages อีกครั้ง
         </p>
         {children}
       </main>
