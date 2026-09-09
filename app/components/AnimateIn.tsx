@@ -6,9 +6,15 @@ interface AnimateInProps {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  stagger?: boolean;
 }
 
-export function AnimateIn({ children, className = "", delay = 0 }: AnimateInProps) {
+export function AnimateIn({
+  children,
+  className = "",
+  delay = 0,
+  stagger = false,
+}: AnimateInProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -29,18 +35,28 @@ export function AnimateIn({ children, className = "", delay = 0 }: AnimateInProp
           observer.disconnect();
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
+  const visibleClass = stagger
+    ? visible
+      ? "stagger-container--visible"
+      : ""
+    : visible
+      ? "animate-in--visible"
+      : "";
+
+  const baseClass = stagger ? "stagger-container" : "animate-in";
+
   return (
     <div
       ref={ref}
-      className={`animate-in ${visible ? "animate-in--visible" : ""} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      className={`${baseClass} ${visibleClass} ${className}`}
+      style={{ transitionDelay: stagger ? undefined : `${delay}ms` }}
     >
       {children}
     </div>
