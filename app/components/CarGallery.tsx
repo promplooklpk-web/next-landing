@@ -9,14 +9,33 @@ interface CarGalleryProps {
 
 export function CarGallery({ images, alt }: CarGalleryProps) {
   const [index, setIndex] = useState(0);
+  const [fading, setFading] = useState(false);
   const touchStart = useRef<number | null>(null);
+  const mounted = useRef(false);
 
   const go = useCallback(
     (dir: -1 | 1) => {
-      setIndex((i) => (i + dir + images.length) % images.length);
+      const next = (index + dir + images.length) % images.length;
+      if (next === index) return;
+
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) {
+        setIndex(next);
+        return;
+      }
+
+      setFading(true);
+      window.setTimeout(() => {
+        setIndex(next);
+        setFading(false);
+      }, 150);
     },
-    [images.length]
+    [index, images.length]
   );
+
+  useEffect(() => {
+    mounted.current = true;
+  }, []);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -44,7 +63,12 @@ export function CarGallery({ images, alt }: CarGalleryProps) {
         <img
           src={images[index]}
           alt=""
-          className="h-full w-full object-cover transition-opacity duration-500"
+          className={`h-full w-full object-cover ${
+            mounted.current && fading ? "opacity-0" : "opacity-100"
+          }`}
+          style={{
+            transition: mounted.current ? "opacity 150ms ease" : "none",
+          }}
         />
         {images.length > 1 && (
           <>
@@ -81,8 +105,20 @@ export function CarGallery({ images, alt }: CarGalleryProps) {
               role="tab"
               aria-selected={i === index}
               aria-label={`รูปที่ ${i + 1}`}
-              onClick={() => setIndex(i)}
-              className={`relative h-14 w-20 shrink-0 overflow-hidden border-2 transition md:h-16 md:w-24 ${
+              onClick={() => {
+                if (i === index) return;
+                const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                if (reduced) {
+                  setIndex(i);
+                  return;
+                }
+                setFading(true);
+                window.setTimeout(() => {
+                  setIndex(i);
+                  setFading(false);
+                }, 150);
+              }}
+              className={`relative h-14 w-20 shrink-0 overflow-hidden border-2 md:h-16 md:w-24 ${
                 i === index ? "border-near-black" : "border-transparent opacity-60 hover:opacity-100"
               }`}
             >

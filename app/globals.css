@@ -27,7 +27,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -107,6 +107,16 @@ body {
   animation: ken-burns-subtle 32s ease-out forwards;
 }
 
+/* Detail pages: opacity fade only, no vertical motion */
+.detail-page {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.detail-page--visible {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -126,5 +136,11 @@ body {
   .hero-ken-burns,
   .panel-ken-burns {
     animation: none;
+  }
+
+  .detail-page,
+  .detail-page--visible {
+    opacity: 1;
+    transition: none;
   }
 }
