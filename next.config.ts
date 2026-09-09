@@ -1,14 +1,22 @@
 import type { NextConfig } from "next";
 
-const isProd = process.env.NODE_ENV === "production";
+const isPagesBuild =
+  process.env.GITHUB_PAGES === "true" || process.env.NODE_ENV === "production";
 const basePath = "/next-landing";
 
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: isProd ? basePath : "",
-  assetPrefix: isProd ? basePath : "",
+  trailingSlash: true,
+  basePath: isPagesBuild ? basePath : "",
+  assetPrefix: isPagesBuild ? basePath : "",
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
   },
 };
 

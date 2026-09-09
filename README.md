@@ -1,63 +1,60 @@
-# next-landing
+# ลำปางคาร์มือสอง
 
-A production-ready Next.js landing page, statically exported and deployed to GitHub Pages.
+เว็บไซต์รถมือสองสำหรับร้าน **ลำปางคาร์มือสอง** ในลำปาง ประเทศไทย — สร้างด้วย Next.js (App Router) + TypeScript + Tailwind CSS และ deploy บน GitHub Pages
 
-**Live site:** https://promplooklpk-web.github.io/next-landing/
+## Live URL
 
-Built by [Yanyong Promplook](https://github.com/promplooklpk-web) — a Thai-first personal studio landing page with English support.
+**https://promplooklpk-web.github.io/next-landing/**
 
-## Stack
+## หน้าเว็บ
 
-- [Next.js 16](https://nextjs.org/) (App Router, static export)
-- [React 19](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS 4](https://tailwindcss.com/)
-- [GitHub Actions](https://github.com/features/actions) + [GitHub Pages](https://pages.github.com/)
+| หน้า | คำอธิบาย |
+|------|----------|
+| `/` | หน้าแรก — hero, ค้นหาเร็ว, รถแนะนำ, ความน่าเชื่อถือ, โปรโมชั่น, รีวิว, ขั้นตอนซื้อ, ติดต่อ |
+| `/cars/` | รายการรถทั้งหมด พร้อมตัวกรองยี่ห้อ/ราคา/เกียร์/ปี |
+| `/cars/[slug]/` | รายละเอียดรถแต่ละคัน |
 
-## Local development
+## แก้ไขข้อมูลร้านและรถ
+
+### ข้อมูลร้าน (`data/shop.ts`)
+
+แก้ชื่อร้าน, ที่อยู่, เวลาเปิด, เบอร์โทร, LINE, รีวิว, ขั้นตอนซื้อ ฯลฯ
+
+### ข้อมูลรถ (`data/cars.ts`)
+
+เพิ่ม/แก้/ลบรถในอาร์เรย์ `cars` — แต่ละคันต้องมี `slug` ที่ไม่ซ้ำกัน ตั้ง `featured: true` สำหรับรถแนะนำ และ `sold: true` สำหรับรถที่ขายแล้ว
+
+## พัฒนาในเครื่อง
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+เปิด http://localhost:3000 (ไม่มี basePath ในโหมด dev)
 
-> **Note:** In development, `basePath` is disabled so the site runs at the root. In production builds, assets are served under `/next-landing` for GitHub Pages.
-
-## Build
+## Build สำหรับ GitHub Pages
 
 ```bash
-npm run build
+GITHUB_PAGES=true NODE_ENV=production npm run build
 ```
 
-This generates a static export in the `out/` directory.
+ผลลัพธ์อยู่ในโฟลเดอร์ `out/`
 
-## Deployment
+## Deploy
 
-Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`), which:
+Push ไปที่ branch `main` จะ trigger workflow `.github/workflows/deploy-github-pages.yml` อัตโนมัติ
 
-1. Installs dependencies
-2. Runs `npm run build`
-3. Uploads the `out/` folder as a Pages artifact
-4. Deploys via `actions/deploy-pages`
+### เปิดใช้ GitHub Pages (ครั้งแรก)
 
-Ensure **GitHub Pages** is enabled in the repository settings with source set to **GitHub Actions**.
+1. ไปที่ **Settings → Pages**
+2. ตั้ง **Source** เป็น **GitHub Actions**
+3. รอ workflow สำเร็จ — เว็บจะอยู่ที่ URL ด้านบน
 
-## Project structure
+## Tech Stack
 
-```
-app/
-  components/   # Landing page sections
-  globals.css   # Theme and utilities
-  layout.tsx    # Root layout and fonts
-  page.tsx      # Home page
-lib/
-  content.ts    # Site copy and data
-public/
-  .nojekyll     # Prevents Jekyll from breaking Next.js paths
-```
-
-## License
-
-MIT
+- Next.js 16 (App Router, static export)
+- TypeScript
+- Tailwind CSS v4
+- `next/image` (unoptimized)
+- basePath `/next-landing` สำหรับ GitHub Pages

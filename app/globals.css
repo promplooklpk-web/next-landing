@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f1e8;
-  --foreground: #1c1a17;
-  --muted: #5c574f;
-  --accent: #c45c3e;
-  --accent-dark: #9e4529;
-  --surface: #fffdf8;
-  --surface-elevated: #ffffff;
-  --border: #e4ddd2;
-  --sage: #5b7c6b;
-  --ink: #2a2620;
+  --background: #f4f6f8;
+  --foreground: #1a1f2e;
+  --muted: #5c6478;
+  --accent: #e85d04;
+  --accent-dark: #c44d00;
+  --surface: #ffffff;
+  --surface-muted: #eef1f5;
+  --border: #dde2ea;
+  --navy: #1e3a5f;
+  --navy-light: #2d5a8e;
+  --success: #16a34a;
 }
 
 @theme inline {
@@ -20,12 +21,12 @@
   --color-accent: var(--accent);
   --color-accent-dark: var(--accent-dark);
   --color-surface: var(--surface);
-  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-muted: var(--surface-muted);
   --color-border: var(--border);
-  --color-sage: var(--sage);
-  --color-ink: var(--ink);
+  --color-navy: var(--navy);
+  --color-navy-light: var(--navy-light);
+  --color-success: var(--success);
   --font-sans: var(--font-noto-thai);
-  --font-display: var(--font-instrument);
 }
 
 html {
@@ -40,18 +41,5 @@ body {
 
 ::selection {
   background: color-mix(in srgb, var(--accent) 25%, transparent);
-  color: var(--ink);
-}
-
-.grid-pattern {
-  background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--border) 55%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--border) 55%, transparent) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
-.hero-glow {
-  background:
-    radial-gradient(ellipse 80% 60% at 70% 20%, color-mix(in srgb, var(--accent) 12%, transparent), transparent),
-    radial-gradient(ellipse 60% 50% at 10% 80%, color-mix(in srgb, var(--sage) 10%, transparent), transparent);
+  color: var(--foreground);
 }

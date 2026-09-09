@@ -1,30 +1,46 @@
-import { site } from "@/lib/content";
+import Link from "next/link";
+import { shop } from "@/data/shop";
 
 export function Footer() {
-  const year = new Date().getFullYear();
-
   return (
-    <footer className="border-t border-border py-10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 text-sm text-muted md:flex-row">
-        <p>
-          © {year}{" "}
-          <span className="font-medium text-ink">{site.owner}</span>
-          {" · "}
-          {site.name}
-        </p>
-
-        <div className="flex items-center gap-6">
-          <a
-            href={site.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition hover:text-ink"
-          >
-            GitHub
-          </a>
-          <a href={site.url} className="transition hover:text-ink">
-            Live site
-          </a>
+    <footer className="border-t border-border bg-navy text-white">
+      <div className="mx-auto max-w-6xl px-4 py-12 md:px-6">
+        <div className="grid gap-8 md:grid-cols-3">
+          <div>
+            <p className="text-lg font-bold">{shop.name}</p>
+            <p className="mt-2 text-sm text-white/70">{shop.tagline}</p>
+          </div>
+          <div>
+            <p className="font-semibold">ติดต่อ</p>
+            <ul className="mt-3 space-y-2 text-sm text-white/70">
+              <li>{shop.location.address}</li>
+              <li>เวลาเปิด: {shop.hours}</li>
+              <li>
+                <a href={`tel:${shop.phoneTel}`} className="hover:text-white">
+                  โทร: {shop.phone}
+                </a>
+              </li>
+              <li>
+                <a href={shop.lineUrl} className="hover:text-white">
+                  LINE: {shop.line}
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p className="font-semibold">เมนู</p>
+            <ul className="mt-3 space-y-2 text-sm text-white/70">
+              <li>
+                <Link href="/" className="hover:text-white">หน้าแรก</Link>
+              </li>
+              <li>
+                <Link href="/cars/" className="hover:text-white">รถทั้งหมด</Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-10 border-t border-white/10 pt-6 text-center text-xs text-white/50">
+          © {new Date().getFullYear()} {shop.name} · ลำปาง ประเทศไทย
         </div>
       </div>
     </footer>

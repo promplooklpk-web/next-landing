@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Noto_Sans_Thai } from "next/font/google";
+import { Noto_Sans_Thai } from "next/font/google";
+import { shop } from "@/data/shop";
+import { FULL_SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const notoThai = Noto_Sans_Thai({
@@ -8,30 +10,29 @@ const notoThai = Noto_Sans_Thai({
   weight: ["400", "500", "600", "700"],
 });
 
-const instrument = Instrument_Serif({
-  variable: "--font-instrument",
-  subsets: ["latin"],
-  weight: "400",
-});
-
 export const metadata: Metadata = {
-  title: "Promplook Studio — สตูดิโอพัฒนาเว็บ",
-  description:
-    "สตูดิโอพัฒนาเว็บของ Yanyong Promplook สร้างหน้าเว็บที่สวยงาม เร็ว และพร้อม deploy บน GitHub Pages ด้วย Next.js",
+  metadataBase: new URL(FULL_SITE_URL),
+  title: {
+    default: `${shop.name} | รถมือสองลำปาง`,
+    template: `%s | ${shop.name}`,
+  },
+  description: shop.tagline,
   openGraph: {
-    title: "Promplook Studio",
-    description: "สตูดิโอพัฒนาเว็บ — Thai-first landing pages with Next.js",
+    title: shop.name,
+    description: shop.tagline,
     type: "website",
-    url: "https://promplooklpk-web.github.io/next-landing/",
+    locale: "th_TH",
+    url: FULL_SITE_URL,
+    siteName: shop.name,
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="th"
-      className={`${notoThai.variable} ${instrument.variable} h-full antialiased`}
-    >
+    <html lang="th" className={`${notoThai.variable} h-full antialiased`}>
       <body className="min-h-full">{children}</body>
     </html>
   );
