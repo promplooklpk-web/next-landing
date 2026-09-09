@@ -11,7 +11,6 @@ import {
 import { useCarStore } from "@/contexts/CarStoreContext";
 import { emptyCar, generateSlug, statusToSold } from "@/lib/car-store";
 import { uploadCarImages } from "@/lib/car-images";
-import { appPath } from "@/lib/navigation";
 import { AppLink } from "../AppLink";
 
 interface PendingImage {
@@ -123,7 +122,7 @@ export function CarForm({ initial, mode }: CarFormProps) {
       } else if (initial) {
         await updateCar(initial.slug, car);
       }
-      router.push(appPath("/dashboard/"));
+      router.push("/dashboard/");
     } catch (err) {
       setFormError(err instanceof Error ? err.message : "บันทึกไม่สำเร็จ");
     } finally {

@@ -3,6 +3,7 @@ import { Car } from "@/data/cars";
 export function generateSlug(brand: string, model: string, year: number): string {
   const base = `${brand}-${model}-${year}`
     .toLowerCase()
+    .replace(/\./g, "")
     .replace(/[^a-z0-9ก-๙]+/gi, "-")
     .replace(/-+/g, "-")
     .replace(/^-|-$/g, "");
