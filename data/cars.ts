@@ -1,5 +1,6 @@
 export type Transmission = "ออโต้" | "เกียร์ธรรมดา";
 export type FuelType = "เบนซิน" | "ดีเซล" | "ไฮบริด";
+export type CarStatus = "ว่าง" | "จอง" | "ขายแล้ว";
 
 export interface Car {
   slug: string;
@@ -13,11 +14,16 @@ export interface Car {
   color: string;
   engine: string;
   description: string;
+  highlights: string;
   features: string[];
-  image: string;
+  images: string[];
+  status: CarStatus;
   sold: boolean;
   featured: boolean;
 }
+
+const img = (id: string, w = 1200) =>
+  `https://images.unsplash.com/photo-${id}?w=${w}&q=80`;
 
 export const cars: Car[] = [
   {
@@ -33,6 +39,7 @@ export const cars: Car[] = [
     engine: "2.5L Hybrid",
     description:
       "Toyota Camry Hybrid ปี 2019 สภาพสวยมาก ประวัติศูนย์ครบ ภายในสะอาด นั่งสบาย เหมาะสำหรับครอบครัวและใช้งานประจำ ประหยัดน้ำมันดีเยี่ยม",
+    highlights: "ประวัติศูนย์ครบ ไมล์น้อย ประหยัดน้ำมัน",
     features: [
       "กล้องมองหลัง",
       "เซ็นเซอร์รอบคัน",
@@ -41,7 +48,14 @@ export const cars: Car[] = [
       "Keyless Entry",
       "ABS / VSC",
     ],
-    image: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=800&q=80",
+    images: [
+      img("1621007947382-bb3c3994e3fb"),
+      img("1494976688670-7e7c697a28b2"),
+      img("1503376780353-7e6692767b70"),
+      img("1580273916550-e896d97eb94d"),
+      img("1618843479313-40f8afb4b4d8"),
+    ],
+    status: "ว่าง",
     sold: false,
     featured: true,
   },
@@ -58,6 +72,7 @@ export const cars: Car[] = [
     engine: "1.5L Turbo",
     description:
       "Honda Civic Turbo สปอร์ตซีดาน ขับสนุก แรงดี สภาพภายใน-ภายนอกสวย ไมล์น้อย ดูแลรักษาดี",
+    highlights: "Turbo แรงดี สภาพสวย ไมล์น้อย",
     features: [
       "Honda Sensing",
       "หลังคา Sunroof",
@@ -66,7 +81,14 @@ export const cars: Car[] = [
       "กล้องมองหลัง",
       "เครื่องเสียงพรีเมียม",
     ],
-    image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=800&q=80",
+    images: [
+      img("1606664515524-ed2f786a0bd6"),
+      img("1555215695-3004980ad54e"),
+      img("1502877338535-766e1452684a"),
+      img("1485291571151-792b9749f2b0"),
+      img("1619767886558-efdc259cde1a"),
+    ],
+    status: "ว่าง",
     sold: false,
     featured: true,
   },
@@ -83,6 +105,7 @@ export const cars: Car[] = [
     engine: "2.4L Diesel",
     description:
       "Toyota Fortuner 7 ที่นั่ง ดีเซลประหยัด ขับดี สมรรถนะเยี่ยม เหมาะครอบครัวใหญ่และเดินทางไกล",
+    highlights: "7 ที่นั่ง ดีเซลประหยัด สมรรถนะดี",
     features: [
       "7 ที่นั่ง",
       "กล้อง 360 องศา",
@@ -91,7 +114,14 @@ export const cars: Car[] = [
       "เซ็นเซอร์รอบคัน",
       "ช่วงล่างสบาย",
     ],
-    image: "https://images.unsplash.com/photo-1519641471654-76ce1117a167?w=800&q=80",
+    images: [
+      img("1605559424843-9e4c228bf1c2"),
+      img("1549317661-bd32c8ce0db2"),
+      img("1617531653332-bd46c24f2068"),
+      img("1517949115646-21b654bbadc6"),
+      img("1583121274602-3e2820c69888"),
+    ],
+    status: "ว่าง",
     sold: false,
     featured: true,
   },
@@ -108,6 +138,7 @@ export const cars: Car[] = [
     engine: "1.5L",
     description:
       "Toyota Vios ปี 2021 ไมล์น้อย ประหยัดน้ำมัน ดูแลง่าย เหมาะมือใหม่และใช้งานในเมือง",
+    highlights: "ไมล์น้อย ประหยัดน้ำมัน ดูแลง่าย",
     features: [
       "กล้องมองหลัง",
       "Bluetooth",
@@ -116,7 +147,14 @@ export const cars: Car[] = [
       "แอร์อัตโนมัติ",
       "ประหยัดน้ำมัน",
     ],
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80",
+    images: [
+      img("1552519507-da3b142c6e3d"),
+      img("1492144534655-ae79c964c9d7"),
+      img("1542362562-01b0888a3c4c"),
+      img("1583121274602-3e2820c69888"),
+      img("1503376780353-7e6692767b70"),
+    ],
+    status: "ว่าง",
     sold: false,
     featured: true,
   },
@@ -133,6 +171,7 @@ export const cars: Car[] = [
     engine: "1.5L i-VTEC",
     description:
       "Honda Jazz กระบะท้าย Magic Seat จุของได้มาก คล่องตัวในเมือง ประหยัดน้ำมัน",
+    highlights: "Magic Seat จุของได้มาก คล่องตัว",
     features: [
       "Magic Seat",
       "กล้องมองหลัง",
@@ -141,7 +180,14 @@ export const cars: Car[] = [
       "ที่นั่งผ้า",
       "คล่องตัว",
     ],
-    image: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=800&q=80",
+    images: [
+      img("1609521263047-f8f205293f24"),
+      img("1552519507-da3b142c6e3d"),
+      img("1492144534655-ae79c964c9d7"),
+      img("1502877338535-766e1452684a"),
+      img("1485291571151-792b9749f2b0"),
+    ],
+    status: "ว่าง",
     sold: false,
     featured: false,
   },
@@ -158,6 +204,7 @@ export const cars: Car[] = [
     engine: "1.9L Diesel",
     description:
       "Isuzu D-Max รุ่น Z ดีเซลแรงทนทาน กระบะใหญ่ เหมาะงานหนักและเดินทางทุกสภาพถนน",
+    highlights: "ดีเซลทนทาน กระบะใหญ่ แรงดี",
     features: [
       "กล้องมองหลัง",
       "Apple CarPlay",
@@ -166,7 +213,14 @@ export const cars: Car[] = [
       "กระบะบรรทุกใหญ่",
       "ดีเซลประหยัด",
     ],
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=80",
+    images: [
+      img("1533473359331-0135ef1b58bf"),
+      img("1549317661-bd32c8ce0db2"),
+      img("1583121274602-3e2820c69888"),
+      img("1617531653332-bd46c24f2068"),
+      img("1517949115646-21b654bbadc6"),
+    ],
+    status: "ว่าง",
     sold: false,
     featured: false,
   },
@@ -183,6 +237,7 @@ export const cars: Car[] = [
     engine: "2.3L Diesel",
     description:
       "Nissan Navara Calibre กระบะนั่งสบาย ดีเซลแรง สมรรถนะดี เหมาะทั้งใช้งานและครอบครัว",
+    highlights: "กระบะนั่งสบาย ดีเซลแรง",
     features: [
       "กล้องมองหลัง",
       "ที่นั่งหนัง",
@@ -191,7 +246,14 @@ export const cars: Car[] = [
       "กระบะกว้าง",
       "ช่วงล่างนุ่ม",
     ],
-    image: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&q=80",
+    images: [
+      img("1568605117036-5fe5e7bab0b7"),
+      img("1549317661-bd32c8ce0db2"),
+      img("1533473359331-0135ef1b58bf"),
+      img("1583121274602-3e2820c69888"),
+      img("1617531653332-bd46c24f2068"),
+    ],
+    status: "ขายแล้ว",
     sold: true,
     featured: false,
   },
@@ -208,6 +270,7 @@ export const cars: Car[] = [
     engine: "2.4L Diesel",
     description:
       "Toyota Hilux Revo เกียร์ธรรมดา ดีเซลทนทาน ซ่อมบำรุงง่าย เหมาะงานหนักและใช้งานจริง",
+    highlights: "ทนทาน ซ่อมง่าย เหมาะงานหนัก",
     features: [
       "กระบะโลหะ",
       "แอร์",
@@ -216,7 +279,14 @@ export const cars: Car[] = [
       "ซ่อมบำรุงง่าย",
       "ทนทาน",
     ],
-    image: "https://images.unsplash.com/photo-1559419181-3d5444c36a79?w=800&q=80",
+    images: [
+      img("1549317661-bd32c8ce0db2"),
+      img("1583121274602-3e2820c69888"),
+      img("1533473359331-0135ef1b58bf"),
+      img("1617531653332-bd46c24f2068"),
+      img("1517949115646-21b654bbadc6"),
+    ],
+    status: "ว่าง",
     sold: false,
     featured: false,
   },

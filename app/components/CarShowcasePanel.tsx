@@ -1,23 +1,26 @@
-import Image from "next/image";
+"use client";
+
 import { Car, formatMileage, formatPrice } from "@/data/cars";
+import { AnimateIn } from "./AnimateIn";
 import { PrimaryButton, SecondaryButton } from "./Buttons";
 
 interface CarShowcasePanelProps {
   car: Car;
+  index: number;
 }
 
-export function CarShowcasePanel({ car }: CarShowcasePanelProps) {
+export function CarShowcasePanel({ car, index }: CarShowcasePanelProps) {
+  const cover = car.images[0];
+
   return (
-    <section className="relative h-[85vh] min-h-[520px] w-full">
-      <Image
-        src={car.image}
-        alt={`${car.brand} ${car.model}`}
-        fill
-        className="object-cover"
-        sizes="100vw"
+    <section className="relative h-[85vh] min-h-[520px] w-full overflow-hidden">
+      <img
+        src={cover}
+        alt=""
+        className="panel-ken-burns absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-      <div className="absolute inset-0 flex flex-col items-center justify-end pb-16 pt-20 text-center text-white md:pb-20">
+      <AnimateIn className="absolute inset-0 flex flex-col items-center justify-end pb-16 pt-20 text-center text-white md:pb-20" delay={index * 80}>
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/70">
           {car.brand}
         </p>
@@ -31,7 +34,7 @@ export function CarShowcasePanel({ car }: CarShowcasePanelProps) {
           <PrimaryButton href={`/cars/${car.slug}/`}>ดูรายละเอียด</PrimaryButton>
           <SecondaryButton href="#contact" dark>ติดต่อ</SecondaryButton>
         </div>
-      </div>
+      </AnimateIn>
     </section>
   );
 }

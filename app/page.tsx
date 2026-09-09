@@ -8,8 +8,6 @@ import { HowToBuy } from "./components/HowToBuy";
 import { JsonLd } from "./components/JsonLd";
 import { MobileFloatingCTA } from "./components/MobileFloatingCTA";
 import { PromoSection } from "./components/PromoSection";
-import { ReviewsSection } from "./components/ReviewsSection";
-import { TrustSection } from "./components/TrustSection";
 import { shop } from "@/data/shop";
 import { FULL_SITE_URL } from "@/lib/site";
 
@@ -71,9 +69,7 @@ export default function Home() {
       <main>
         <Hero />
         <CarsSection />
-        <TrustSection />
         <PromoSection />
-        <ReviewsSection />
         <HowToBuy />
         <ContactMap />
       </main>

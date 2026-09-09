@@ -21,15 +21,14 @@ export function ContactMap() {
             แชท LINE
           </SecondaryButton>
         </div>
-      </div>
-      <div className="relative h-[50vh] min-h-[320px] w-full bg-surface">
-        <iframe
-          title="แผนที่ลำปางคาร์มือสอง"
-          src={`https://maps.google.com/maps?q=${shop.location.lat},${shop.location.lng}&z=14&output=embed`}
-          className="absolute inset-0 h-full w-full border-0 grayscale-[30%]"
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        />
+        <a
+          href={shop.location.mapUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-8 inline-block text-xs text-muted underline-offset-4 transition hover:text-foreground hover:underline"
+        >
+          เปิดใน Google Maps →
+        </a>
       </div>
     </section>
   );

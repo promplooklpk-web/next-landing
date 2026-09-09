@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   basePath: isPagesBuild ? basePath : "",
   assetPrefix: isPagesBuild ? basePath : "",
+  env: {
+    NEXT_PUBLIC_BASE_PATH: isPagesBuild ? basePath : "",
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

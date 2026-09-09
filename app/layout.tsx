@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Thai } from "next/font/google";
 import { shop } from "@/data/shop";
-import { FULL_SITE_URL } from "@/lib/site";
+import { assetPath, FULL_SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const notoThai = Noto_Sans_Thai({
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
+    icon: assetPath("/logo.png"),
+    apple: assetPath("/logo.png"),
   },
 };
 

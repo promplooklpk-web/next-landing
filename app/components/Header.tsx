@@ -1,21 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { shop } from "@/data/shop";
 import { Logo } from "./Logo";
 
 const navLinks = [
   { href: "#cars", label: "รถในร้าน" },
-  { href: "#about", label: "เกี่ยวกับเรา" },
   { href: "#contact", label: "ติดต่อ" },
 ];
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-black/5 bg-white/80 backdrop-blur-md">
+    <header
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? "border-b border-black/5 bg-white/90 backdrop-blur-md shadow-sm"
+          : "border-b border-transparent bg-white/60 backdrop-blur-sm"
+      }`}
+    >
       <div className="mx-auto flex h-12 max-w-[1400px] items-center justify-between px-6 md:h-14">
         <Link href="/" className="flex items-center gap-2">
           <Logo size={28} />

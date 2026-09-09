@@ -6,8 +6,8 @@ export function CarsSection() {
 
   return (
     <div id="cars">
-      {inventory.map((car) => (
-        <CarShowcasePanel key={car.slug} car={car} />
+      {inventory.map((car, index) => (
+        <CarShowcasePanel key={car.slug} car={car} index={index} />
       ))}
     </div>
   );

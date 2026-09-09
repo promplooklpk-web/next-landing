@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { assetPath } from "@/lib/site";
 
 interface LogoProps {
   size?: number;
@@ -7,13 +7,12 @@ interface LogoProps {
 
 export function Logo({ size = 36, className = "" }: LogoProps) {
   return (
-    <Image
-      src="/logo.png"
+    <img
+      src={assetPath("/logo.png")}
       alt=""
       width={size}
       height={size}
       className={`shrink-0 object-contain ${className}`}
-      priority
     />
   );
 }
