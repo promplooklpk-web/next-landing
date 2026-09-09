@@ -7,7 +7,7 @@ export function HowToBuy() {
         <h2 className="text-center text-3xl font-medium tracking-tight md:text-4xl">
           ขั้นตอนการซื้อรถ
         </h2>
-        <div className="mt-16 grid gap-10 sm:grid-cols-2 md:grid-cols-4 md:gap-6">
+        <div className="mt-16 grid gap-10 md:grid-cols-3 md:gap-8">
           {howToBuySteps.map((step) => (
             <div key={step.step} className="text-center">
               <p className="text-xs text-muted-light">{step.step}</p>
