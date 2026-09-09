@@ -1,32 +1,4 @@
-import { Car, cars as seedCars } from "@/data/cars";
-
-export const STORAGE_KEY = "lampangcars-inventory-v1";
-
-export function loadCars(): Car[] {
-  if (typeof window === "undefined") return seedCars;
-
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(seedCars));
-      return seedCars;
-    }
-    const parsed = JSON.parse(raw) as Car[];
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : seedCars;
-  } catch {
-    return seedCars;
-  }
-}
-
-export function saveCars(cars: Car[]): void {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(cars));
-}
-
-export function resetCars(): void {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(seedCars));
-}
+import { Car } from "@/data/cars";
 
 export function generateSlug(brand: string, model: string, year: number): string {
   const base = `${brand}-${model}-${year}`

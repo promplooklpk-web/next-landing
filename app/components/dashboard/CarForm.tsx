@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Car,
   CarStatus,
@@ -10,8 +10,14 @@ import {
 } from "@/data/cars";
 import { useCarStore } from "@/contexts/CarStoreContext";
 import { emptyCar, generateSlug, statusToSold } from "@/lib/car-store";
+import { uploadCarImages } from "@/lib/car-images";
 import { appPath } from "@/lib/navigation";
 import { AppLink } from "../AppLink";
+
+interface PendingImage {
+  file: File;
+  preview: string;
+}
 
 const transmissions: Transmission[] = ["ออโต้", "เกียร์ธรรมดา"];
 const fuels: FuelType[] = ["เบนซิน", "ดีเซล", "ไฮบริด"];
@@ -33,6 +39,15 @@ export function CarForm({ initial, mode }: CarFormProps) {
     initial?.features.join(", ") ?? ""
   );
   const [imageUrl, setImageUrl] = useState("");
+  const [pendingFiles, setPendingFiles] = useState<PendingImage[]>([]);
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      pendingFiles.forEach((item) => URL.revokeObjectURL(item.preview));
+    };
+  }, [pendingFiles]);
 
   function update<K extends keyof Car>(key: K, value: Car[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -40,14 +55,19 @@ export function CarForm({ initial, mode }: CarFormProps) {
 
   function handleFiles(files: FileList | null) {
     if (!files) return;
-    Array.from(files).forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === "string") {
-          setForm((f) => ({ ...f, images: [...f.images, reader.result as string] }));
-        }
-      };
-      reader.readAsDataURL(file);
+    const added = Array.from(files).map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+    setPendingFiles((prev) => [...prev, ...added]);
+  }
+
+  function removePending(index: number) {
+    setPendingFiles((prev) => {
+      const next = [...prev];
+      URL.revokeObjectURL(next[index].preview);
+      next.splice(index, 1);
+      return next;
     });
   }
 
@@ -70,28 +90,45 @@ export function CarForm({ initial, mode }: CarFormProps) {
     setForm((f) => ({ ...f, images: imgs }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const features = featuresText
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-    const slug =
-      form.slug ||
-      generateSlug(form.brand, form.model, form.year);
-    const car: Car = {
-      ...form,
-      slug,
-      features,
-      sold: statusToSold(form.status),
-    };
+    setSaving(true);
+    setFormError(null);
 
-    if (mode === "create") {
-      addCar(car);
-    } else if (initial) {
-      updateCar(initial.slug, car);
+    try {
+      const features = featuresText
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
+      const slug =
+        form.slug || generateSlug(form.brand, form.model, form.year);
+
+      const uploaded = await uploadCarImages(
+        slug,
+        pendingFiles.map((item) => item.file)
+      );
+      pendingFiles.forEach((item) => URL.revokeObjectURL(item.preview));
+      setPendingFiles([]);
+
+      const car: Car = {
+        ...form,
+        slug,
+        features,
+        images: [...form.images, ...uploaded],
+        sold: statusToSold(form.status),
+      };
+
+      if (mode === "create") {
+        await addCar(car);
+      } else if (initial) {
+        await updateCar(initial.slug, car);
+      }
+      router.push(appPath("/dashboard/"));
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : "บันทึกไม่สำเร็จ");
+    } finally {
+      setSaving(false);
     }
-    router.push(appPath("/dashboard/"));
   }
 
   const inputClass =
@@ -101,6 +138,11 @@ export function CarForm({ initial, mode }: CarFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto max-w-2xl pb-28 md:pb-0">
+      {formError && (
+        <div className="mb-4 border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {formError}
+        </div>
+      )}
       <div className="space-y-5">
         <div className="grid gap-5 md:grid-cols-2 md:gap-4">
           <label className={labelClass}>
@@ -250,7 +292,7 @@ export function CarForm({ initial, mode }: CarFormProps) {
         <div className="border border-border bg-white p-4 md:p-5">
           <p className="text-sm font-medium">รูปภาพ</p>
 
-          {form.images.length > 0 && (
+          {(form.images.length > 0 || pendingFiles.length > 0) && (
             <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
               {form.images.map((src, i) => (
                 <div key={`${src.slice(0, 32)}-${i}`} className="overflow-hidden border border-border">
@@ -282,6 +324,25 @@ export function CarForm({ initial, mode }: CarFormProps) {
                       aria-label="เลื่อนไปขวา"
                     >
                       →
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {pendingFiles.map((item, i) => (
+                <div key={item.preview} className="overflow-hidden border border-dashed border-border">
+                  <img
+                    src={item.preview}
+                    alt=""
+                    className="aspect-[4/3] w-full object-cover"
+                  />
+                  <div className="p-2 text-center">
+                    <p className="text-xs text-muted">รออัปโหลด</p>
+                    <button
+                      type="button"
+                      className="mt-1 min-h-[36px] text-xs text-red-600 hover:text-red-800"
+                      onClick={() => removePending(i)}
+                    >
+                      ลบ
                     </button>
                   </div>
                 </div>
@@ -332,9 +393,14 @@ export function CarForm({ initial, mode }: CarFormProps) {
         <div className="mx-auto flex max-w-2xl flex-col gap-2 sm:flex-row sm:gap-3">
           <button
             type="submit"
-            className="min-h-[48px] w-full bg-near-black px-6 py-3 text-base font-medium text-white hover:bg-near-black-hover md:w-auto md:text-sm"
+            disabled={saving}
+            className="min-h-[48px] w-full bg-near-black px-6 py-3 text-base font-medium text-white hover:bg-near-black-hover disabled:opacity-60 md:w-auto md:text-sm"
           >
-            {mode === "create" ? "เพิ่มรถ" : "บันทึก"}
+            {saving
+              ? "กำลังบันทึก..."
+              : mode === "create"
+                ? "เพิ่มรถ"
+                : "บันทึก"}
           </button>
           <AppLink
             href="/dashboard/"

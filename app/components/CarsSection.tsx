@@ -4,7 +4,23 @@ import { useCarStore } from "@/contexts/CarStoreContext";
 import { CarShowcasePanel } from "./CarShowcasePanel";
 
 export function CarsSection() {
-  const { cars } = useCarStore();
+  const { cars, ready, loading, error } = useCarStore();
+
+  if (!ready || loading) {
+    return (
+      <div id="cars" className="py-24 text-center text-sm text-muted">
+        กำลังโหลดรถในร้าน...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div id="cars" className="py-24 text-center text-sm text-muted">
+        โหลดรถไม่สำเร็จ — กรุณาลองใหม่ภายหลัง
+      </div>
+    );
+  }
 
   const inventory = cars.filter((car) => !car.sold);
 

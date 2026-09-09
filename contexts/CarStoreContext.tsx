@@ -9,89 +9,138 @@ import {
   useState,
 } from "react";
 import { Car } from "@/data/cars";
-import { cars as seedCars } from "@/data/cars";
-import { generateSlug, loadCars, saveCars, statusToSold } from "@/lib/car-store";
+import {
+  deleteCarBySlug,
+  fetchCarsWithAutoSeed,
+  insertCar,
+  seedCarsToSupabase,
+  updateCarBySlug,
+} from "@/lib/cars-db";
+import { generateSlug, statusToSold } from "@/lib/car-store";
+import { isSupabaseConfigured } from "@/lib/supabase";
 
 interface CarStoreContextValue {
   cars: Car[];
   ready: boolean;
+  loading: boolean;
+  error: string | null;
+  refresh: () => Promise<void>;
   getCar: (slug: string) => Car | undefined;
-  addCar: (car: Car) => void;
-  updateCar: (slug: string, car: Car) => void;
-  deleteCar: (slug: string) => void;
-  resetToSeed: () => void;
+  addCar: (car: Car) => Promise<void>;
+  updateCar: (slug: string, car: Car) => Promise<void>;
+  deleteCar: (slug: string) => Promise<void>;
+  seedToSupabase: () => Promise<void>;
 }
 
 const CarStoreContext = createContext<CarStoreContextValue | null>(null);
 
 export function CarStoreProvider({ children }: { children: React.ReactNode }) {
-  const [cars, setCars] = useState<Car[]>(seedCars);
+  const [cars, setCars] = useState<Car[]>([]);
   const [ready, setReady] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const refresh = useCallback(async () => {
+    if (!isSupabaseConfigured) {
+      setError("ยังไม่ได้ตั้งค่า Supabase (NEXT_PUBLIC_SUPABASE_URL / ANON_KEY)");
+      setCars([]);
+      setLoading(false);
+      setReady(true);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await fetchCarsWithAutoSeed();
+      setCars(data);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "โหลดข้อมูลรถไม่สำเร็จ";
+      setError(message);
+    } finally {
+      setLoading(false);
+      setReady(true);
+    }
+  }, []);
 
   useEffect(() => {
-    setCars(loadCars());
-    setReady(true);
-  }, []);
-
-  const persist = useCallback((next: Car[]) => {
-    setCars(next);
-    saveCars(next);
-  }, []);
+    refresh();
+  }, [refresh]);
 
   const getCar = useCallback(
     (slug: string) => cars.find((c) => c.slug === slug),
     [cars]
   );
 
-  const addCar = useCallback(
-    (car: Car) => {
-      const slug =
-        car.slug ||
-        generateSlug(car.brand, car.model, car.year);
-      const entry: Car = {
-        ...car,
-        slug,
-        sold: statusToSold(car.status),
-      };
-      persist([...cars, entry]);
-    },
-    [cars, persist]
-  );
+  const addCar = useCallback(async (car: Car) => {
+    const slug = car.slug || generateSlug(car.brand, car.model, car.year);
+    const entry: Car = {
+      ...car,
+      slug,
+      sold: statusToSold(car.status),
+    };
+    const saved = await insertCar(entry);
+    setCars((prev) => [saved, ...prev.filter((c) => c.slug !== saved.slug)]);
+  }, []);
 
-  const updateCar = useCallback(
-    (slug: string, car: Car) => {
-      const entry: Car = {
-        ...car,
-        slug: car.slug || slug,
-        sold: statusToSold(car.status),
-      };
-      persist(cars.map((c) => (c.slug === slug ? entry : c)));
-    },
-    [cars, persist]
-  );
+  const updateCar = useCallback(async (slug: string, car: Car) => {
+    const entry: Car = {
+      ...car,
+      slug: car.slug || slug,
+      sold: statusToSold(car.status),
+    };
+    const saved = await updateCarBySlug(slug, entry);
+    setCars((prev) => prev.map((c) => (c.slug === slug ? saved : c)));
+  }, []);
 
-  const deleteCar = useCallback(
-    (slug: string) => {
-      persist(cars.filter((c) => c.slug !== slug));
-    },
-    [cars, persist]
-  );
+  const deleteCar = useCallback(async (slug: string) => {
+    await deleteCarBySlug(slug);
+    setCars((prev) => prev.filter((c) => c.slug !== slug));
+  }, []);
 
-  const resetToSeed = useCallback(() => {
-    persist([...seedCars]);
-  }, [persist]);
+  const seedToSupabase = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await seedCarsToSupabase();
+      const data = await fetchCarsWithAutoSeed();
+      setCars(data);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "เพิ่มข้อมูลตัวอย่างไม่สำเร็จ";
+      setError(message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const value = useMemo(
     () => ({
       cars,
       ready,
+      loading,
+      error,
+      refresh,
       getCar,
       addCar,
       updateCar,
       deleteCar,
-      resetToSeed,
+      seedToSupabase,
     }),
-    [cars, ready, getCar, addCar, updateCar, deleteCar, resetToSeed]
+    [
+      cars,
+      ready,
+      loading,
+      error,
+      refresh,
+      getCar,
+      addCar,
+      updateCar,
+      deleteCar,
+      seedToSupabase,
+    ]
   );
 
   return (
