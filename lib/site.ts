@@ -1,12 +1,16 @@
+/** GitHub Pages subpath — hardcoded so assets always resolve on live deploy */
+export const BASE_PATH = "/next-landing";
+
 export const SITE_URL = "https://promplooklpk-web.github.io";
-export const BASE_PATH =
-  process.env.NEXT_PUBLIC_BASE_PATH ??
-  (process.env.NODE_ENV === "production" ? "/next-landing" : "");
 export const FULL_SITE_URL = `${SITE_URL}${BASE_PATH}`;
 
+/** Prefix a public asset path with basePath for GitHub Pages */
 export function assetPath(path: string): string {
   const normalized = path.startsWith("/") ? path : `/${path}`;
-  return `${BASE_PATH}${normalized}`;
+  const prefix =
+    process.env.NEXT_PUBLIC_BASE_PATH ??
+    (process.env.NODE_ENV === "production" ? BASE_PATH : "");
+  return `${prefix}${normalized}`;
 }
 
 export function absoluteUrl(path = ""): string {
