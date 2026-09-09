@@ -6,6 +6,7 @@ import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { JsonLd } from "../../components/JsonLd";
 import { MobileFloatingCTA } from "../../components/MobileFloatingCTA";
+import { PrimaryButton, SecondaryButton } from "../../components/Buttons";
 import {
   cars,
   formatMileage,
@@ -84,111 +85,110 @@ export default async function CarDetailPage({ params }: PageProps) {
     },
   };
 
+  const specs = [
+    { label: "เลขไมล์", value: formatMileage(car.mileage) },
+    { label: "เกียร์", value: car.transmission },
+    { label: "เชื้อเพลิง", value: car.fuel },
+    { label: "สี", value: car.color },
+    { label: "เครื่องยนต์", value: car.engine },
+    { label: "ปี", value: String(car.year) },
+  ];
+
   return (
     <>
       <JsonLd data={carJsonLd} />
       <Header />
-      <main className="mx-auto max-w-6xl px-4 py-10 md:px-6">
-        <Link href="/#cars" className="text-sm text-accent hover:underline">
-          ← กลับไปหน้ารถในร้าน
-        </Link>
-
-        <div className="mt-6 grid gap-8 lg:grid-cols-2">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-surface-muted">
-            <Image
-              src={car.image}
-              alt={`${car.brand} ${car.model}`}
-              fill
-              className="object-cover"
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-            {car.sold && (
-              <span className="absolute inset-0 flex items-center justify-center bg-black/50 text-2xl font-bold text-white">
+      <main>
+        <section className="relative h-[70vh] min-h-[480px] w-full">
+          <Image
+            src={car.image}
+            alt={`${car.brand} ${car.model}`}
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+          {car.sold && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+              <span className="text-2xl font-medium tracking-wide text-white">
                 ขายแล้ว
               </span>
-            )}
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-muted">{car.brand}</p>
-            <h1 className="mt-1 text-2xl font-bold text-navy md:text-3xl">
-              {car.model}
-            </h1>
-            <p className="mt-2 text-muted">ปี {car.year}</p>
-
-            {!car.sold ? (
-              <p className="mt-4 text-3xl font-bold text-accent">
-                ฿{formatPrice(car.price)}
-              </p>
-            ) : (
-              <p className="mt-4 text-xl font-bold text-muted">ขายแล้ว</p>
-            )}
-
-            <div className="mt-6 grid grid-cols-2 gap-4 rounded-xl border border-border bg-surface-muted p-4 text-sm">
-              <div>
-                <p className="text-muted">เลขไมล์</p>
-                <p className="font-semibold">{formatMileage(car.mileage)}</p>
-              </div>
-              <div>
-                <p className="text-muted">เกียร์</p>
-                <p className="font-semibold">{car.transmission}</p>
-              </div>
-              <div>
-                <p className="text-muted">เชื้อเพลิง</p>
-                <p className="font-semibold">{car.fuel}</p>
-              </div>
-              <div>
-                <p className="text-muted">สี</p>
-                <p className="font-semibold">{car.color}</p>
-              </div>
-              <div>
-                <p className="text-muted">เครื่องยนต์</p>
-                <p className="font-semibold">{car.engine}</p>
-              </div>
             </div>
+          )}
+        </section>
 
-            {!car.sold && (
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a
-                  href={`tel:${shop.phoneTel}`}
-                  className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition hover:bg-accent-dark"
-                >
-                  โทรสอบถาม {shop.phone}
-                </a>
-                <a
-                  href={shop.lineUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full bg-[#06C755] px-6 py-3 text-sm font-semibold text-white"
-                >
-                  แชท LINE {shop.line}
-                </a>
-              </div>
-            )}
-          </div>
-        </div>
+        <section className="bg-white py-16 text-center md:py-24">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-light">
+            {car.brand}
+          </p>
+          <h1 className="mt-3 text-3xl font-medium tracking-tight md:text-5xl">
+            {car.model}
+          </h1>
+          {!car.sold ? (
+            <p className="mt-4 text-lg text-muted md:text-xl">
+              ฿{formatPrice(car.price)}
+            </p>
+          ) : (
+            <p className="mt-4 text-lg text-muted">ขายแล้ว</p>
+          )}
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-2">
-          <div>
-            <h2 className="text-lg font-bold text-navy">รายละเอียด</h2>
-            <p className="mt-3 leading-relaxed text-muted">{car.description}</p>
+          {!car.sold && (
+            <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
+              <PrimaryButton href={`tel:${shop.phoneTel}`} external>
+                โทรสอบถาม
+              </PrimaryButton>
+              <SecondaryButton href={shop.lineUrl} external>
+                แชท LINE
+              </SecondaryButton>
+            </div>
+          )}
+
+          <Link
+            href="/#cars"
+            className="mt-8 inline-block text-xs text-muted transition hover:text-foreground"
+          >
+            ← กลับไปหน้ารถในร้าน
+          </Link>
+        </section>
+
+        <section className="border-t border-border bg-surface py-16 md:py-20">
+          <div className="mx-auto max-w-[900px] px-6">
+            <div className="grid grid-cols-2 gap-8 md:grid-cols-3">
+              {specs.map((spec) => (
+                <div key={spec.label} className="text-center">
+                  <p className="text-xs text-muted-light">{spec.label}</p>
+                  <p className="mt-1 text-sm font-medium">{spec.value}</p>
+                </div>
+              ))}
+            </div>
           </div>
-          <div>
-            <h2 className="text-lg font-bold text-navy">อุปกรณ์และฟีเจอร์</h2>
-            <ul className="mt-3 grid grid-cols-2 gap-2">
+        </section>
+
+        <section className="bg-white py-16 md:py-24">
+          <div className="mx-auto max-w-[680px] px-6">
+            <h2 className="text-center text-2xl font-medium tracking-tight md:text-3xl">
+              รายละเอียด
+            </h2>
+            <p className="mt-6 text-center text-sm leading-relaxed text-muted">
+              {car.description}
+            </p>
+          </div>
+        </section>
+
+        <section className="border-t border-border bg-white py-16 md:py-20">
+          <div className="mx-auto max-w-[680px] px-6">
+            <h2 className="text-center text-2xl font-medium tracking-tight md:text-3xl">
+              อุปกรณ์และฟีเจอร์
+            </h2>
+            <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-3 md:grid-cols-3">
               {car.features.map((feature) => (
-                <li
-                  key={feature}
-                  className="flex items-center gap-2 text-sm text-muted"
-                >
-                  <span className="text-success">✓</span>
+                <li key={feature} className="text-center text-xs text-muted">
                   {feature}
                 </li>
               ))}
             </ul>
           </div>
-        </div>
+        </section>
       </main>
       <Footer />
       <MobileFloatingCTA />

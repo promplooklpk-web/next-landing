@@ -2,29 +2,20 @@ import { reviews } from "@/data/shop";
 
 export function ReviewsSection() {
   return (
-    <section className="bg-surface-muted py-16">
-      <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <h2 className="text-center text-2xl font-bold text-navy md:text-3xl">
+    <section className="bg-surface py-24 md:py-32">
+      <div className="mx-auto max-w-[900px] px-6">
+        <h2 className="text-center text-3xl font-medium tracking-tight md:text-4xl">
           รีวิวจากลูกค้า
         </h2>
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
+        <div className="mt-16 grid gap-12 md:grid-cols-3 md:gap-8">
           {reviews.map((review) => (
-            <div
-              key={review.name}
-              className="rounded-2xl border border-border bg-surface p-6"
-            >
-              <div className="flex gap-1 text-accent">
-                {Array.from({ length: review.rating }).map((_, i) => (
-                  <span key={i}>★</span>
-                ))}
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-foreground">
+            <div key={review.name} className="text-center md:text-left">
+              <p className="text-sm leading-relaxed text-muted">
                 &ldquo;{review.text}&rdquo;
               </p>
-              <div className="mt-4 flex items-center justify-between text-xs text-muted">
-                <span className="font-semibold">{review.name}</span>
-                <span>{review.date}</span>
-              </div>
+              <p className="mt-4 text-xs text-muted-light">
+                {review.name} · {review.date}
+              </p>
             </div>
           ))}
         </div>

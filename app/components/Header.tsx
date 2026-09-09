@@ -6,74 +6,59 @@ import { shop } from "@/data/shop";
 import { Logo } from "./Logo";
 
 const navLinks = [
-  { href: "/", label: "หน้าแรก" },
   { href: "#cars", label: "รถในร้าน" },
-  { href: "#contact", label: "ติดต่อเรา" },
+  { href: "#about", label: "เกี่ยวกับเรา" },
+  { href: "#contact", label: "ติดต่อ" },
 ];
 
 export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-surface/95 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6">
-        <Link href="/" className="flex items-center gap-2.5">
-          <Logo size={40} />
-          <div>
-            <p className="text-sm font-bold leading-tight text-navy md:text-base">
-              {shop.name}
-            </p>
-            <p className="hidden text-xs text-muted sm:block">ลำปาง · รถมือสอง</p>
-          </div>
+    <header className="fixed top-0 z-50 w-full border-b border-black/5 bg-white/80 backdrop-blur-md">
+      <div className="mx-auto flex h-12 max-w-[1400px] items-center justify-between px-6 md:h-14">
+        <Link href="/" className="flex items-center gap-2">
+          <Logo size={28} />
+          <span className="text-[13px] font-medium tracking-tight text-foreground md:text-sm">
+            {shop.name}
+          </span>
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-foreground transition hover:text-accent"
+              className="text-[13px] font-medium text-foreground/80 transition hover:text-foreground"
             >
               {link.label}
             </Link>
           ))}
-          <a
-            href={`tel:${shop.phoneTel}`}
-            className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-dark"
-          >
-            โทร {shop.phone}
-          </a>
         </nav>
 
         <button
           type="button"
-          className="flex h-10 w-10 items-center justify-center rounded-lg border border-border md:hidden"
+          className="flex h-8 w-8 items-center justify-center md:hidden"
           onClick={() => setOpen(!open)}
           aria-label="เปิดเมนู"
         >
-          <span className="text-lg">{open ? "✕" : "☰"}</span>
+          <span className="text-sm text-foreground">{open ? "✕" : "☰"}</span>
         </button>
       </div>
 
       {open && (
-        <nav className="border-t border-border bg-surface px-4 py-4 md:hidden">
-          <div className="flex flex-col gap-3">
+        <nav className="border-t border-border bg-white px-6 py-4 md:hidden">
+          <div className="flex flex-col gap-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-lg px-3 py-2 text-sm font-medium hover:bg-surface-muted"
+                className="text-sm font-medium text-foreground"
                 onClick={() => setOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <a
-              href={`tel:${shop.phoneTel}`}
-              className="rounded-lg bg-accent px-3 py-2 text-center text-sm font-semibold text-white"
-            >
-              โทร {shop.phone}
-            </a>
           </div>
         </nav>
       )}

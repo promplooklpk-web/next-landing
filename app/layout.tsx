@@ -7,7 +7,7 @@ import "./globals.css";
 const notoThai = Noto_Sans_Thai({
   variable: "--font-noto-thai",
   subsets: ["latin", "thai"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
