@@ -3,6 +3,7 @@
 import { Car, formatMileage, formatPrice } from "@/data/cars";
 import { AnimateIn } from "./AnimateIn";
 import { PrimaryButton, SecondaryButton } from "./Buttons";
+import { carDetailPath } from "@/lib/car-routes";
 
 interface CarShowcasePanelProps {
   car: Car;
@@ -17,12 +18,12 @@ export function CarShowcasePanel({ car, index }: CarShowcasePanelProps) {
       <img
         src={cover}
         alt=""
-        className="panel-ken-burns absolute inset-0 h-full w-full object-cover"
+        className="panel-ken-burns pointer-events-none absolute inset-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/5" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/5" />
       <AnimateIn
         stagger
-        className="absolute inset-0 flex flex-col items-center justify-end pb-16 pt-20 text-center text-white md:pb-20"
+        className="absolute inset-0 z-10 flex flex-col items-center justify-end pb-16 pt-20 text-center text-white md:pb-20"
         delay={index * 100}
       >
         <p className="stagger-item text-xs font-medium uppercase tracking-[0.2em] text-white/80">
@@ -34,8 +35,8 @@ export function CarShowcasePanel({ car, index }: CarShowcasePanelProps) {
         <p className="stagger-item mt-3 text-sm text-white/90">
           ฿{formatPrice(car.price)} · ปี {car.year} · {formatMileage(car.mileage)}
         </p>
-        <div className="stagger-item mt-8 flex w-full max-w-md flex-col gap-3 px-6 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4 sm:px-0">
-          <PrimaryButton href={`/cars/${car.slug}/`} overlay>
+        <div className="stagger-item relative z-20 mt-8 flex w-full max-w-md flex-col gap-3 px-6 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4 sm:px-0">
+          <PrimaryButton href={carDetailPath(car.slug)} overlay>
             ดูรายละเอียด
           </PrimaryButton>
           <SecondaryButton href="#contact" overlay>

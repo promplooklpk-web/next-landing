@@ -1,7 +1,7 @@
-import Link from "next/link";
+import { AppLink } from "./AppLink";
 
 const base =
-  "inline-flex min-h-[44px] min-w-[200px] items-center justify-center px-8 py-3 text-[13px] font-medium tracking-wide transition-all duration-300";
+  "relative z-10 inline-flex min-h-[44px] min-w-[200px] items-center justify-center px-8 py-3 text-[13px] font-medium tracking-wide transition-all duration-300";
 
 export function PrimaryButton({
   href,
@@ -18,17 +18,10 @@ export function PrimaryButton({
     ? `${base} bg-white text-near-black shadow-lg shadow-black/25 hover:bg-white/95 active:bg-white/90`
     : `${base} bg-near-black text-white hover:bg-near-black-hover active:bg-near-black`;
 
-  if (external) {
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
-        {children}
-      </a>
-    );
-  }
   return (
-    <Link href={href} className={className}>
+    <AppLink href={href} className={className} external={external}>
       {children}
-    </Link>
+    </AppLink>
   );
 }
 
@@ -51,16 +44,9 @@ export function SecondaryButton({
       ? `${base} border-2 border-white/80 bg-transparent text-white hover:bg-white/10 active:bg-white/20`
       : `${base} border border-border-dark bg-transparent text-foreground hover:bg-surface active:bg-surface`;
 
-  if (external) {
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
-        {children}
-      </a>
-    );
-  }
   return (
-    <Link href={href} className={className}>
+    <AppLink href={href} className={className} external={external}>
       {children}
-    </Link>
+    </AppLink>
   );
 }

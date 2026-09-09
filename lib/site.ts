@@ -10,6 +10,11 @@ export function assetPath(path: string): string {
   const prefix =
     process.env.NEXT_PUBLIC_BASE_PATH ??
     (process.env.NODE_ENV === "production" ? BASE_PATH : "");
+
+  if (!prefix) return normalized;
+  if (normalized === prefix || normalized.startsWith(`${prefix}/`)) {
+    return normalized;
+  }
   return `${prefix}${normalized}`;
 }
 

@@ -35,7 +35,7 @@ export function AnimateIn({
           observer.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
+      { threshold: 0.1, rootMargin: "0px" }
     );
 
     observer.observe(el);
@@ -55,10 +55,10 @@ export function AnimateIn({
   return (
     <div
       ref={ref}
-      className={`${baseClass} ${visibleClass} ${className}`}
+      className={`${baseClass} ${visibleClass} pointer-events-none ${className}`}
       style={{ transitionDelay: stagger ? undefined : `${delay}ms` }}
     >
-      {children}
+      <div className="pointer-events-auto">{children}</div>
     </div>
   );
 }

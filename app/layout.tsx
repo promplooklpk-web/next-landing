@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_Thai } from "next/font/google";
 import { shop } from "@/data/shop";
 import { FULL_SITE_URL } from "@/lib/site";
+import { Providers } from "./providers";
 import "./globals.css";
 
 const notoThai = Noto_Sans_Thai({
@@ -38,7 +39,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="th" className={`${notoThai.variable} h-full antialiased`}>
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
