@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { shop } from "@/data/shop";
+import { Logo } from "./Logo";
 
 export function Footer() {
   return (
@@ -7,7 +8,10 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-12 md:px-6">
         <div className="grid gap-8 md:grid-cols-3">
           <div>
-            <p className="text-lg font-bold">{shop.name}</p>
+            <div className="flex items-center gap-2.5">
+              <Logo size={36} />
+              <p className="text-lg font-bold">{shop.name}</p>
+            </div>
             <p className="mt-2 text-sm text-white/70">{shop.tagline}</p>
           </div>
           <div>
@@ -34,7 +38,7 @@ export function Footer() {
                 <Link href="/" className="hover:text-white">หน้าแรก</Link>
               </li>
               <li>
-                <Link href="/cars/" className="hover:text-white">รถทั้งหมด</Link>
+                <Link href="/#cars" className="hover:text-white">รถในร้าน</Link>
               </li>
             </ul>
           </div>

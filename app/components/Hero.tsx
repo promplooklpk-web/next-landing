@@ -14,10 +14,10 @@ export function Hero() {
           <p className="mt-4 text-lg text-white/80 md:text-xl">{shop.tagline}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
-              href="/cars/"
+              href="#cars"
               className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition hover:bg-accent-dark"
             >
-              ดูรถทั้งหมด
+              ดูรถในร้าน
             </Link>
             <a
               href={`tel:${shop.phoneTel}`}

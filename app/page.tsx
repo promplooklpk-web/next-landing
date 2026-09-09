@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { CarsSection } from "./components/CarsSection";
 import { ContactMap } from "./components/ContactMap";
-import { FeaturedCars } from "./components/FeaturedCars";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
@@ -8,7 +8,6 @@ import { HowToBuy } from "./components/HowToBuy";
 import { JsonLd } from "./components/JsonLd";
 import { MobileFloatingCTA } from "./components/MobileFloatingCTA";
 import { PromoSection } from "./components/PromoSection";
-import { QuickSearch } from "./components/QuickSearch";
 import { ReviewsSection } from "./components/ReviewsSection";
 import { TrustSection } from "./components/TrustSection";
 import { shop } from "@/data/shop";
@@ -71,8 +70,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <QuickSearch />
-        <FeaturedCars />
+        <CarsSection />
         <TrustSection />
         <PromoSection />
         <ReviewsSection />

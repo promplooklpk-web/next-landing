@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { useState } from "react";
 import { shop } from "@/data/shop";
+import { Logo } from "./Logo";
 
 const navLinks = [
   { href: "/", label: "หน้าแรก" },
-  { href: "/cars/", label: "รถทั้งหมด" },
+  { href: "#cars", label: "รถในร้าน" },
   { href: "#contact", label: "ติดต่อเรา" },
 ];
 
@@ -16,10 +17,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-surface/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-navy text-sm font-bold text-white">
-            ลป
-          </span>
+        <Link href="/" className="flex items-center gap-2.5">
+          <Logo size={40} />
           <div>
             <p className="text-sm font-bold leading-tight text-navy md:text-base">
               {shop.name}

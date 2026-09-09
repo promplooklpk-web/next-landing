@@ -89,8 +89,8 @@ export default async function CarDetailPage({ params }: PageProps) {
       <JsonLd data={carJsonLd} />
       <Header />
       <main className="mx-auto max-w-6xl px-4 py-10 md:px-6">
-        <Link href="/cars/" className="text-sm text-accent hover:underline">
-          ← กลับไปรายการรถ
+        <Link href="/#cars" className="text-sm text-accent hover:underline">
+          ← กลับไปหน้ารถในร้าน
         </Link>
 
         <div className="mt-6 grid gap-8 lg:grid-cols-2">
