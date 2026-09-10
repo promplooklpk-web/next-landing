@@ -55,7 +55,9 @@
 
 `NEXT_PUBLIC_BASE_PATH` ถูกตั้งอัตโนมัติเป็น `/next-landing` เมื่อ `GITHUB_PAGES=true` เท่านั้น
 
-**สำคัญ:** ตัวแปร `NEXT_PUBLIC_*` ถูก bake ลงใน JavaScript ตอน **build** เท่านั้น — ต้องตั้งใน Cloudflare Pages ที่ **Build environment variables** (ไม่ใช่แค่ Runtime) แล้วกด **Retry deployment** หลังเปลี่ยนค่า
+**ค่าเริ่มต้น (baked in):** Supabase URL + anon key อยู่ใน `lib/supabase-public.json` — Cloudflare/GitHub build ใช้ได้ทันทีโดยไม่ต้องตั้ง env
+
+**Override (optional):** ตั้ง `NEXT_PUBLIC_SUPABASE_*` / `NEXT_PUBLIC_SITE_URL` ใน env ตอน build ถ้าต้องการเปลี่ยนโปรเจกต์หรือโดเมน
 
 ## พัฒนาในเครื่อง
 
