@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { shop } from "@/data/shop";
 import { handleHashClick, homeHash } from "@/lib/navigation";
+import { SEO_PRIMARY } from "@/lib/site-seo";
 
 export function HeroContent() {
   const [ready, setReady] = useState(false);
@@ -26,11 +27,14 @@ export function HeroContent() {
         ready ? "hero-content--visible" : ""
       }`}
     >
-      <h1 className="hero-content__item max-w-3xl text-4xl font-medium tracking-tight md:text-6xl">
-        {shop.name}
+      <h1 className="hero-content__item max-w-3xl text-3xl font-medium tracking-tight md:text-5xl">
+        {SEO_PRIMARY}
       </h1>
-      <p className="hero-content__item mt-4 max-w-lg text-sm font-normal text-white/90 md:text-base">
-        {shop.tagline}
+      <p className="hero-content__item mt-3 text-lg font-medium text-white md:text-xl">
+        {shop.name}
+      </p>
+      <p className="hero-content__item mt-3 max-w-lg text-sm font-normal text-white/90 md:text-base">
+        {shop.tagline} · {shop.serviceArea}
       </p>
       <div className="hero-content__item pointer-events-auto mt-8 flex w-full max-w-md flex-col gap-3 px-6 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4 sm:px-0">
         <a

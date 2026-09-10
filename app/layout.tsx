@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Noto_Sans_Thai } from "next/font/google";
 import { shop } from "@/data/shop";
 import { FULL_SITE_URL } from "@/lib/site";
+import {
+  SEO_DEFAULT_DESCRIPTION,
+  SEO_DEFAULT_TITLE,
+  SEO_KEYWORDS,
+} from "@/lib/site-seo";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -14,13 +19,14 @@ const notoThai = Noto_Sans_Thai({
 export const metadata: Metadata = {
   metadataBase: new URL(FULL_SITE_URL),
   title: {
-    default: `${shop.name} | รถมือสองลำปาง`,
+    default: SEO_DEFAULT_TITLE,
     template: `%s | ${shop.name}`,
   },
-  description: shop.tagline,
+  description: SEO_DEFAULT_DESCRIPTION,
+  keywords: [...SEO_KEYWORDS],
   openGraph: {
-    title: shop.name,
-    description: shop.tagline,
+    title: SEO_DEFAULT_TITLE,
+    description: SEO_DEFAULT_DESCRIPTION,
     type: "website",
     locale: "th_TH",
     url: FULL_SITE_URL,

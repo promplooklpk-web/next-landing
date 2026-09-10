@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
 import { Car, formatMileage, formatPrice } from "@/data/cars";
 import { shop } from "@/data/shop";
+import { SEO_PRIMARY } from "@/lib/site-seo";
 import { absoluteUrl, carDetailUrl } from "@/lib/site";
 
 export function carPageTitle(car: Car): string {
-  return `${car.brand} ${car.model} ปี ${car.year} ราคา ฿${formatPrice(car.price)} | ${shop.name}`;
+  return `${car.brand} ${car.model} ปี ${car.year} ${SEO_PRIMARY} | ${shop.name}`;
 }
 
 export function carPageDescription(car: Car): string {
-  return `${car.brand} ${car.model} ปี ${car.year} ราคา ฿${formatPrice(car.price)} เลขไมล์ ${formatMileage(car.mileage)} ${car.transmission} ${car.fuel} — ${shop.name} ลำปาง`;
+  return (
+    `ขายรถมือสอง ${car.brand} ${car.model} ปี ${car.year} ราคา ฿${formatPrice(car.price)} ` +
+    `เลขไมล์ ${formatMileage(car.mileage)} ${car.transmission} ${car.fuel} — ` +
+    `${shop.name} ลำปาง บริการโซนบ้านฟ้อนและเมืองลำปาง`
+  );
 }
 
 export function carPageMetadata(car: Car, slug: string): Metadata {
@@ -19,6 +24,13 @@ export function carPageMetadata(car: Car, slug: string): Metadata {
   return {
     title: { absolute: title },
     description,
+    keywords: [
+      SEO_PRIMARY,
+      "ขายรถมือสอง",
+      "ขายรถมือสองบ้านฟ้อน",
+      `${car.brand} ${car.model}`,
+      "ลำปาง",
+    ],
     openGraph: {
       title,
       description,
@@ -62,6 +74,10 @@ export function buildCarJsonLd(car: Car) {
         "@type": "AutoDealer",
         name: shop.name,
         url: absoluteUrl(),
+        areaServed: [
+          { "@type": "City", name: "ลำปาง" },
+          { "@type": "Place", name: "บ้านฟ้อน" },
+        ],
       },
     },
   };

@@ -8,23 +8,22 @@ import { HowToBuy } from "./components/HowToBuy";
 import { JsonLd } from "./components/JsonLd";
 import { MobileFloatingCTA } from "./components/MobileFloatingCTA";
 import { PromoSection } from "./components/PromoSection";
+import { SeoIntroSection } from "./components/SeoIntroSection";
 import { shop } from "@/data/shop";
 import { FULL_SITE_URL } from "@/lib/site";
+import {
+  SEO_DEFAULT_DESCRIPTION,
+  SEO_DEFAULT_TITLE,
+  SEO_KEYWORDS,
+} from "@/lib/site-seo";
 
 export const metadata: Metadata = {
-  title: `${shop.name} | รถมือสองลำปาง ราคาดี คุณภาพเยี่ยม`,
-  description: `${shop.tagline} รถมือสองลำปาง คัดสรรคุณภาพ เปิดทุกวัน ${shop.hours} โทร ${shop.phone} LINE ${shop.line}`,
-  keywords: [
-    "รถมือสองลำปาง",
-    "รถมือสอง",
-    "ลำปาง",
-    "รถมือสองราคาดี",
-    "เต็นท์รถมือสองลำปาง",
-    shop.name,
-  ],
+  title: SEO_DEFAULT_TITLE,
+  description: SEO_DEFAULT_DESCRIPTION,
+  keywords: [...SEO_KEYWORDS],
   openGraph: {
-    title: `${shop.name} | รถมือสองลำปาง`,
-    description: shop.tagline,
+    title: SEO_DEFAULT_TITLE,
+    description: SEO_DEFAULT_DESCRIPTION,
     url: FULL_SITE_URL,
     locale: "th_TH",
     type: "website",
@@ -54,6 +53,11 @@ const dealerJsonLd = {
     latitude: shop.location.lat,
     longitude: shop.location.lng,
   },
+  areaServed: [
+    { "@type": "City", name: "ลำปาง" },
+    { "@type": "AdministrativeArea", name: "อำเภอเมืองลำปาง" },
+    { "@type": "Place", name: "บ้านฟ้อน" },
+  ],
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",
     dayOfWeek: [
@@ -81,6 +85,7 @@ export default function Home() {
         <CarsSection />
         <PromoSection />
         <HowToBuy />
+        <SeoIntroSection />
         <ContactMap />
       </main>
       <Footer />
