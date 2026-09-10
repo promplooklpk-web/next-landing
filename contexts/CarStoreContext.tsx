@@ -17,7 +17,7 @@ import {
   updateCarBySlug,
 } from "@/lib/cars-db";
 import { generateSlug, statusToSold } from "@/lib/car-store";
-import { isSupabaseConfigured } from "@/lib/supabase";
+import { isSupabaseConfigured, SUPABASE_CONFIG_ERROR } from "@/lib/supabase";
 
 interface CarStoreContextValue {
   cars: Car[];
@@ -42,7 +42,7 @@ export function CarStoreProvider({ children }: { children: React.ReactNode }) {
 
   const refresh = useCallback(async () => {
     if (!isSupabaseConfigured) {
-      setError("ยังไม่ได้ตั้งค่า Supabase (NEXT_PUBLIC_SUPABASE_URL / ANON_KEY)");
+      setError(SUPABASE_CONFIG_ERROR);
       setCars([]);
       setLoading(false);
       setReady(true);

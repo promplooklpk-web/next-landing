@@ -1,5 +1,6 @@
 import { Car, cars as seedCars, getCarBySlug } from "@/data/cars";
 import { CarRow, rowToCar } from "@/lib/cars-db";
+import { BUILD_TIME_CAR_SLUGS } from "@/lib/static-car-slugs";
 
 let buildCarsCache: Promise<Car[]> | null = null;
 
@@ -51,13 +52,12 @@ export function fetchCarsAtBuild(): Promise<Car[]> {
   return buildCarsCache;
 }
 
-/** All slugs to pre-render: union of seed + Supabase. */
+/** Slugs with pre-rendered HTML at build time (from prebuild script). */
+export { BUILD_TIME_CAR_SLUGS, isStaticCarSlug } from "@/lib/static-car-slugs";
+
+/** All slugs to pre-render — matches BUILD_TIME_CAR_SLUGS from prebuild. */
 export async function getBuildCarSlugs(): Promise<string[]> {
-  const dbCars = await fetchCarsAtBuild();
-  const slugs = new Set<string>();
-  for (const car of seedCars) slugs.add(car.slug);
-  for (const car of dbCars) slugs.add(car.slug);
-  return [...slugs];
+  return [...BUILD_TIME_CAR_SLUGS];
 }
 
 /** Resolve car for static generation — prefer Supabase over seed. */

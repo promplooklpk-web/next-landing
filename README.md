@@ -7,7 +7,7 @@
 | Host | URL |
 |------|-----|
 | GitHub Pages | https://promplooklpk-web.github.io/next-landing/ |
-| Cloudflare Pages | ตั้ง `NEXT_PUBLIC_SITE_URL` เป็น `https://<project>.pages.dev` |
+| Cloudflare Pages | https://next-landing-cge.pages.dev |
 
 ## หน้าเว็บ
 
@@ -33,11 +33,14 @@
 
 ### SEO และ static pages
 
-ตอน build GitHub Actions จะดึงรถจาก Supabase แล้วสร้าง HTML จริงที่ `/cars/<slug>/` + `sitemap.xml`
+ตอน `npm run build` สคริปต์ `prebuild` ดึง slug จาก Supabase + seed แล้ว bake เป็น `BUILD_TIME_CAR_SLUGS` สำหรับ:
 
-- รถที่เพิ่มในแดชบอร์ด **หลัง** deploy ล่าสุด จะยังไม่มีหน้า SEO จนกว่าจะ push/redeploy
-- ระหว่างรอ deploy ใช้ `/cars/view/?slug=...` ได้
-- หลัง push ไป `main` workflow จะ rebuild อัตโนมัติ
+- สร้าง HTML จริงที่ `/cars/<slug>/` + `sitemap.xml`
+- ลิงก์ “ดูรายละเอียด” ใช้ `/cars/<slug>/` เฉพาะ slug ที่มีใน build ล่าสุด
+
+รถที่เพิ่ม **หลัง** deploy ล่าสุด → ลิงก์อัตโนมัติไป `/cars/view/?slug=...` (ไม่ 404) จนกว่าจะ redeploy
+
+หลัง push ไป `main` workflow จะ rebuild อัตโนมัติ
 
 ### Environment variables
 
@@ -46,11 +49,13 @@
 | Variable | GitHub Pages | Cloudflare Pages |
 |----------|--------------|------------------|
 | `GITHUB_PAGES` | `true` | **ไม่ตั้ง** |
-| `NEXT_PUBLIC_SITE_URL` | `https://promplooklpk-web.github.io` | `https://<project>.pages.dev` |
+| `NEXT_PUBLIC_SITE_URL` | `https://promplooklpk-web.github.io` | `https://next-landing-cge.pages.dev` |
 | `NEXT_PUBLIC_SUPABASE_URL` | ✓ | ✓ |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✓ (anon only) | ✓ (anon only) |
 
 `NEXT_PUBLIC_BASE_PATH` ถูกตั้งอัตโนมัติเป็น `/next-landing` เมื่อ `GITHUB_PAGES=true` เท่านั้น
+
+**สำคัญ:** ตัวแปร `NEXT_PUBLIC_*` ถูก bake ลงใน JavaScript ตอน **build** เท่านั้น — ต้องตั้งใน Cloudflare Pages ที่ **Build environment variables** (ไม่ใช่แค่ Runtime) แล้วกด **Retry deployment** หลังเปลี่ยนค่า
 
 ## พัฒนาในเครื่อง
 
@@ -67,9 +72,9 @@ npm run dev
 # GitHub Pages (subpath /next-landing)
 npm run build:pages
 
-# Cloudflare Pages (root URL)
+# Cloudflare Pages (root URL) — prebuild รันอัตโนมัติก่อน next build
 NODE_ENV=production \
-  NEXT_PUBLIC_SITE_URL=https://lampang-cars.pages.dev \
+  NEXT_PUBLIC_SITE_URL=https://next-landing-cge.pages.dev \
   NEXT_PUBLIC_SUPABASE_URL=https://kxbeofqiahloeqkillvy.supabase.co \
   NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key> \
   npm run build
@@ -95,14 +100,17 @@ Push ไปที่ branch `main` จะ trigger workflow `.github/workflows/de
    - **Build command:** `npm ci && npm run build`
    - **Build output directory:** `out`
    - **Node.js version:** `22`
-4. **Environment variables (Production):**
+4. **Environment variables** — ตั้งทั้ง **Production** และ **Preview** (ใช้ตอน build):
    ```
    NEXT_PUBLIC_SUPABASE_URL=https://kxbeofqiahloeqkillvy.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=<same anon key as GitHub Actions>
-   NEXT_PUBLIC_SITE_URL=https://<your-project>.pages.dev
+   NEXT_PUBLIC_SITE_URL=https://next-landing-cge.pages.dev
    ```
    **ไม่ตั้ง** `GITHUB_PAGES`
-5. Deploy — หลังได้ URL จริง อัปเดต `NEXT_PUBLIC_SITE_URL` แล้ว redeploy (สำหรับ sitemap/canonical/OG ที่ถูกต้อง)
+
+   ใน Cloudflare dashboard: **Settings → Environment variables** → เลือก scope **Build** (หรือ Production ที่ใช้ตอน build) → Save → **Retry deployment**
+
+5. หลังเปลี่ยน env หรือเพิ่มรถใหม่ที่ต้องการหน้า SEO `/cars/<slug>/` → push/redeploy เพื่อให้ `prebuild` อัปเดต `BUILD_TIME_CAR_SLUGS`
 
 ดู `wrangler.toml` สำหรับค่า output directory และหมายเหตุ CLI deploy (`npx wrangler pages deploy out`)
 

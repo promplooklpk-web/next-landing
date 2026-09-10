@@ -3,7 +3,7 @@ const GH_SITE_ORIGIN = "https://promplooklpk-web.github.io";
 const GH_BASE_PATH = "/next-landing";
 
 /** Placeholder until first Cloudflare deploy — override with NEXT_PUBLIC_SITE_URL */
-const CF_PLACEHOLDER_ORIGIN = "https://lampang-cars.pages.dev";
+const CF_PLACEHOLDER_ORIGIN = "https://next-landing-cge.pages.dev";
 
 function resolveBasePath(): string {
   if (process.env.NEXT_PUBLIC_BASE_PATH !== undefined) {

@@ -11,5 +11,6 @@ pages_build_output_dir = "out"
 # Environment variables (Production):
 #   NEXT_PUBLIC_SUPABASE_URL
 #   NEXT_PUBLIC_SUPABASE_ANON_KEY
-#   NEXT_PUBLIC_SITE_URL=https://<project>.pages.dev
+#   NEXT_PUBLIC_SITE_URL=https://next-landing-cge.pages.dev
+#   (all NEXT_PUBLIC_* must be set at BUILD time — see README)
 # Do NOT set GITHUB_PAGES on Cloudflare.
