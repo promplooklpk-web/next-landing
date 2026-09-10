@@ -5,6 +5,9 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
 const OUT = "lib/static-car-slugs.ts";
+const defaults = JSON.parse(
+  readFileSync("lib/supabase-public.json", "utf8")
+);
 
 function readSeedSlugs() {
   const carsTs = readFileSync("data/cars.ts", "utf8");
@@ -12,12 +15,8 @@ function readSeedSlugs() {
 }
 
 async function readSupabaseSlugs() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) {
-    console.warn("[prebuild] Supabase env missing — seed slugs only");
-    return [];
-  }
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || defaults.url;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || defaults.anonKey;
 
   try {
     const res = await fetch(`${url}/rest/v1/cars?select=slug`, {

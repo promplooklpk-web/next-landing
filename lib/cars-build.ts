@@ -1,17 +1,13 @@
 import { Car, cars as seedCars, getCarBySlug } from "@/data/cars";
 import { CarRow, rowToCar } from "@/lib/cars-db";
+import { getSupabaseAnonKey, getSupabaseUrl } from "@/lib/supabase-env";
 import { BUILD_TIME_CAR_SLUGS } from "@/lib/static-car-slugs";
 
 let buildCarsCache: Promise<Car[]> | null = null;
 
 async function fetchCarsFromSupabase(): Promise<Car[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!url || !key) {
-    console.warn("[build] Supabase env missing — using seed cars only");
-    return seedCars;
-  }
+  const url = getSupabaseUrl();
+  const key = getSupabaseAnonKey();
 
   try {
     const response = await fetch(
