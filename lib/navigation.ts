@@ -1,5 +1,5 @@
 import type { MouseEvent } from "react";
-import { assetPath, BASE_PATH } from "@/lib/site";
+import { assetPath, isHomePagePath } from "@/lib/site";
 
 /** Build an in-app path with basePath prefix */
 export function appPath(path: string): string {
@@ -31,11 +31,7 @@ export function handleHashClick(
   hash: string
 ): void {
   const id = hash.startsWith("#") ? hash.slice(1) : hash;
-  const onHome =
-    window.location.pathname === assetPath("/") ||
-    window.location.pathname === `${BASE_PATH}/` ||
-    window.location.pathname.endsWith("/next-landing/") ||
-    window.location.pathname.endsWith("/next-landing");
+  const onHome = isHomePagePath(window.location.pathname);
 
   if (onHome) {
     e.preventDefault();

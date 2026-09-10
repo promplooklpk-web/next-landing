@@ -1,0 +1,15 @@
+# Cloudflare Pages — connect repo in dashboard or deploy with wrangler pages deploy
+name = "lampang-cars"
+compatibility_date = "2024-09-01"
+pages_build_output_dir = "out"
+
+# Build (set in Cloudflare dashboard):
+#   Build command: npm ci && npm run build
+#   Build output directory: out
+#   Node.js version: 22
+#
+# Environment variables (Production):
+#   NEXT_PUBLIC_SUPABASE_URL
+#   NEXT_PUBLIC_SUPABASE_ANON_KEY
+#   NEXT_PUBLIC_SITE_URL=https://<project>.pages.dev
+# Do NOT set GITHUB_PAGES on Cloudflare.

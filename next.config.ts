@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
-const isPagesBuild =
-  process.env.GITHUB_PAGES === "true" || process.env.NODE_ENV === "production";
+const isPagesBuild = process.env.GITHUB_PAGES === "true";
 const basePath = "/next-landing";
 
 const nextConfig: NextConfig = {

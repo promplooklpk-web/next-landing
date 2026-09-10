@@ -1,10 +1,13 @@
 # ลำปางคาร์มือสอง
 
-เว็บไซต์รถมือสองสำหรับร้าน **ลำปางคาร์มือสอง** ในลำปาง ประเทศไทย — สร้างด้วย Next.js (App Router) + TypeScript + Tailwind CSS และ deploy บน GitHub Pages
+เว็บไซต์รถมือสองสำหรับร้าน **ลำปางคาร์มือสอง** ในลำปาง ประเทศไทย — สร้างด้วย Next.js (App Router) + TypeScript + Tailwind CSS รองรับ deploy บน **GitHub Pages** (subpath) และ **Cloudflare Pages** (root URL)
 
-## Live URL
+## Live URLs
 
-**https://promplooklpk-web.github.io/next-landing/**
+| Host | URL |
+|------|-----|
+| GitHub Pages | https://promplooklpk-web.github.io/next-landing/ |
+| Cloudflare Pages | ตั้ง `NEXT_PUBLIC_SITE_URL` เป็น `https://<project>.pages.dev` |
 
 ## หน้าเว็บ
 
@@ -40,12 +43,14 @@
 
 คัดลอกจาก `.env.example`:
 
-```bash
-NEXT_PUBLIC_SUPABASE_URL=https://kxbeofqiahloeqkillvy.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-```
+| Variable | GitHub Pages | Cloudflare Pages |
+|----------|--------------|------------------|
+| `GITHUB_PAGES` | `true` | **ไม่ตั้ง** |
+| `NEXT_PUBLIC_SITE_URL` | `https://promplooklpk-web.github.io` | `https://<project>.pages.dev` |
+| `NEXT_PUBLIC_SUPABASE_URL` | ✓ | ✓ |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✓ (anon only) | ✓ (anon only) |
 
-ค่าเหล่านี้ถูก bake ใน GitHub Actions workflow สำหรับ Pages deploy (anon key เท่านั้น — ไม่ใช้ service_role)
+`NEXT_PUBLIC_BASE_PATH` ถูกตั้งอัตโนมัติเป็น `/next-landing` เมื่อ `GITHUB_PAGES=true` เท่านั้น
 
 ## พัฒนาในเครื่อง
 
@@ -56,15 +61,23 @@ npm run dev
 
 เปิด http://localhost:3000 (ไม่มี basePath ในโหมด dev)
 
-## Build สำหรับ GitHub Pages
+## Build
 
 ```bash
-GITHUB_PAGES=true NODE_ENV=production npm run build
+# GitHub Pages (subpath /next-landing)
+npm run build:pages
+
+# Cloudflare Pages (root URL)
+NODE_ENV=production \
+  NEXT_PUBLIC_SITE_URL=https://lampang-cars.pages.dev \
+  NEXT_PUBLIC_SUPABASE_URL=https://kxbeofqiahloeqkillvy.supabase.co \
+  NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key> \
+  npm run build
 ```
 
 ผลลัพธ์อยู่ในโฟลเดอร์ `out/`
 
-## Deploy
+## Deploy — GitHub Pages
 
 Push ไปที่ branch `main` จะ trigger workflow `.github/workflows/deploy-github-pages.yml` อัตโนมัติ
 
@@ -74,10 +87,30 @@ Push ไปที่ branch `main` จะ trigger workflow `.github/workflows/de
 2. ตั้ง **Source** เป็น **GitHub Actions**
 3. รอ workflow สำเร็จ — เว็บจะอยู่ที่ URL ด้านบน
 
+## Deploy — Cloudflare Pages
+
+1. **Workers & Pages → Create → Connect to Git** → เลือก repo นี้
+2. **Framework preset:** None (หรือ Next.js static)
+3. **Build settings:**
+   - **Build command:** `npm ci && npm run build`
+   - **Build output directory:** `out`
+   - **Node.js version:** `22`
+4. **Environment variables (Production):**
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://kxbeofqiahloeqkillvy.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<same anon key as GitHub Actions>
+   NEXT_PUBLIC_SITE_URL=https://<your-project>.pages.dev
+   ```
+   **ไม่ตั้ง** `GITHUB_PAGES`
+5. Deploy — หลังได้ URL จริง อัปเดต `NEXT_PUBLIC_SITE_URL` แล้ว redeploy (สำหรับ sitemap/canonical/OG ที่ถูกต้อง)
+
+ดู `wrangler.toml` สำหรับค่า output directory และหมายเหตุ CLI deploy (`npx wrangler pages deploy out`)
+
 ## Tech Stack
 
 - Next.js 16 (App Router, static export)
 - TypeScript
 - Tailwind CSS v4
 - `next/image` (unoptimized)
-- basePath `/next-landing` สำหรับ GitHub Pages
+- basePath `/next-landing` เฉพาะเมื่อ `GITHUB_PAGES=true` (GitHub Pages)
+- root deploy บน Cloudflare Pages (`basePath` ว่าง)

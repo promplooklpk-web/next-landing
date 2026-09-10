@@ -1,18 +1,18 @@
 "use client";
 
 import { useEffect } from "react";
-import { BASE_PATH } from "@/lib/site";
+import { homeHash } from "@/lib/navigation";
 
 export function CarsRedirect() {
   useEffect(() => {
-    window.location.replace(`${BASE_PATH}/#cars`);
+    window.location.replace(homeHash("cars"));
   }, []);
 
   return (
     <main className="flex min-h-screen items-center justify-center p-8">
       <p className="text-muted">
         กำลังนำทางไปหน้ารถในร้าน…{" "}
-        <a href="/#cars" className="text-accent hover:underline">
+        <a href={homeHash("cars")} className="text-accent hover:underline">
           คลิกที่นี่
         </a>
       </p>
