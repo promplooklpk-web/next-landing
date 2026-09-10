@@ -21,14 +21,21 @@ export function ContactMap() {
             แชท LINE
           </SecondaryButton>
         </div>
-        <a
-          href={shop.location.mapUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-8 inline-block text-xs text-muted underline-offset-4 transition hover:text-foreground hover:underline"
-        >
-          เปิดใน Google Maps →
-        </a>
+        <div className="mt-10 w-full overflow-hidden rounded-lg border border-border">
+          <iframe
+            src={shop.location.embedUrl}
+            title={`แผนที่ ${shop.name}`}
+            className="h-64 w-full border-0 md:h-80"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
+        <div className="mt-6">
+          <PrimaryButton href={shop.location.directionsUrl} external>
+            นำทาง
+          </PrimaryButton>
+        </div>
       </div>
     </section>
   );

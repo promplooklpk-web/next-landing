@@ -9,9 +9,13 @@ export const shop = {
     district: "อำเภอเมืองลำปาง",
     subdistrict: "บ้านฟ้อน",
     address: "ถนนบุญวัฒนา ตำบลสวนดอก อำเภอเมืองลำปาง จังหวัดลำปาง 52000",
-    mapUrl: "https://maps.google.com/?q=Lampang+Thailand",
     lat: 18.2888,
     lng: 99.4928,
+    mapUrl: "https://www.google.com/maps?q=18.2888,99.4928",
+    embedUrl:
+      "https://maps.google.com/maps?q=18.2888,99.4928&hl=th&z=15&output=embed",
+    directionsUrl:
+      "https://www.google.com/maps/dir/?api=1&destination=18.2888,99.4928",
   },
   hours: "ทุกวัน 09:00–18:00",
   phone: "080-000-0000",
