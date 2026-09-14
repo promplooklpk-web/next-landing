@@ -131,14 +131,14 @@ export function CarForm({ initial, mode }: CarFormProps) {
   }
 
   const inputClass =
-    "mt-1.5 w-full min-h-[44px] border border-border bg-white px-4 py-3 text-base focus:border-near-black focus:outline-none md:text-sm md:min-h-0 md:py-2";
+    "mt-1.5 w-full min-h-[44px] rounded-md border border-border bg-surface px-4 py-3 text-base text-foreground focus:border-accent focus:outline-none md:text-sm md:min-h-0 md:py-2";
 
   const labelClass = "block text-sm";
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto max-w-2xl pb-28 md:pb-0">
       {formError && (
-        <div className="mb-4 border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="mb-4 border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
           {formError}
         </div>
       )}
@@ -288,7 +288,7 @@ export function CarForm({ initial, mode }: CarFormProps) {
           />
         </label>
 
-        <div className="border border-border bg-white p-4 md:p-5">
+        <div className="rounded-lg border border-border bg-surface-raised p-4 md:p-5">
           <p className="text-sm font-medium">รูปภาพ</p>
 
           {(form.images.length > 0 || pendingFiles.length > 0) && (
@@ -311,7 +311,7 @@ export function CarForm({ initial, mode }: CarFormProps) {
                     </button>
                     <button
                       type="button"
-                      className="min-h-[36px] text-xs text-red-600 hover:text-red-800"
+                      className="min-h-[36px] text-xs text-red-400 hover:text-red-300"
                       onClick={() => removeImage(i)}
                     >
                       ลบ
@@ -363,7 +363,7 @@ export function CarForm({ initial, mode }: CarFormProps) {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="mt-4 flex min-h-[88px] w-full flex-col items-center justify-center gap-2 border-2 border-dashed border-border bg-surface px-4 py-6 text-sm text-muted transition hover:border-near-black hover:text-foreground"
+            className="mt-4 flex min-h-[88px] w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border bg-surface px-4 py-6 text-sm text-muted transition hover:border-accent hover:text-foreground"
           >
             <span className="text-2xl leading-none">+</span>
             <span>แตะเพื่ออัปโหลดรูปจากเครื่อง</span>
@@ -388,12 +388,12 @@ export function CarForm({ initial, mode }: CarFormProps) {
       </div>
 
       {/* Mobile: sticky save bar */}
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-white/95 p-4 backdrop-blur-sm md:static md:mt-8 md:border-0 md:bg-transparent md:p-0">
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 p-4 backdrop-blur-sm md:static md:mt-8 md:border-0 md:bg-transparent md:p-0">
         <div className="mx-auto flex max-w-2xl flex-col gap-2 sm:flex-row sm:gap-3">
           <button
             type="submit"
             disabled={saving}
-            className="min-h-[48px] w-full bg-near-black px-6 py-3 text-base font-medium text-white hover:bg-near-black-hover disabled:opacity-60 md:w-auto md:text-sm"
+            className="min-h-[48px] w-full rounded-md bg-accent px-6 py-3 text-base font-medium text-accent-foreground hover:bg-accent-hover disabled:opacity-60 md:w-auto md:text-sm"
           >
             {saving
               ? "กำลังบันทึก..."

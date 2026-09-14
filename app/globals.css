@@ -1,15 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171a20;
-  --muted: #5c5e62;
-  --muted-light: #8e8e8e;
-  --surface: #f4f4f4;
-  --border: #d0d1d2;
-  --border-dark: #393c41;
-  --near-black: #171a20;
-  --near-black-hover: #393c41;
+  --background: #0b0d10;
+  --foreground: #f3f4f6;
+  --muted: #9ca3af;
+  --muted-light: #6b7280;
+  --surface: #141820;
+  --surface-raised: #1a1f28;
+  --border: #2a3140;
+  --border-dark: #3d4654;
+  --near-black: #050608;
+  --near-black-hover: #0f1218;
+  --accent: #2dd4bf;
+  --accent-hover: #14b8a6;
+  --accent-foreground: #042f2e;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -19,15 +23,20 @@
   --color-muted: var(--muted);
   --color-muted-light: var(--muted-light);
   --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
   --color-border: var(--border);
   --color-border-dark: var(--border-dark);
   --color-near-black: var(--near-black);
   --color-near-black-hover: var(--near-black-hover);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
   --font-sans: var(--font-noto-thai);
 }
 
 html {
   scroll-behavior: auto;
+  color-scheme: dark;
 }
 
 #cars,
@@ -43,7 +52,7 @@ body {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--near-black) 12%, transparent);
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
 /* Single-block scroll reveal */

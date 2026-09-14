@@ -2,30 +2,34 @@
 
 import { shop } from "@/data/shop";
 import { AppLink } from "./AppLink";
+import { Logo } from "./Logo";
 
 export function Footer() {
   return (
-    <footer className="bg-near-black py-12 text-white md:py-16">
+    <footer className="border-t border-border bg-near-black py-12 text-white md:py-16">
       <div className="mx-auto flex max-w-[1400px] flex-col items-center gap-8 px-6 md:flex-row md:justify-between">
-        <p className="text-xs text-white/50">
-          © {new Date().getFullYear()} {shop.name}
-        </p>
+        <div className="flex items-center gap-2.5">
+          <Logo size={26} className="text-accent" />
+          <p className="text-xs text-white/50">
+            © {new Date().getFullYear()} {shop.name}
+          </p>
+        </div>
         <nav className="flex flex-wrap justify-center gap-8">
           <AppLink
             href="#cars"
-            className="text-xs text-white/60 transition hover:text-white"
+            className="text-xs text-white/60 transition hover:text-accent"
           >
             รถในร้าน
           </AppLink>
           <AppLink
             href="#contact"
-            className="text-xs text-white/60 transition hover:text-white"
+            className="text-xs text-white/60 transition hover:text-accent"
           >
             ติดต่อ
           </AppLink>
           <a
             href={`tel:${shop.phoneTel}`}
-            className="text-xs text-white/60 transition hover:text-white"
+            className="text-xs text-white/60 transition hover:text-accent"
           >
             {shop.phone}
           </a>

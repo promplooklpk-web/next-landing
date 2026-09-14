@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Thai } from "next/font/google";
 import { shop } from "@/data/shop";
-import { FULL_SITE_URL } from "@/lib/site";
+import { absoluteUrl, FULL_SITE_URL } from "@/lib/site";
 import {
   SEO_DEFAULT_DESCRIPTION,
   SEO_DEFAULT_TITLE,
@@ -36,16 +36,16 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   icons: {
-    icon: `${FULL_SITE_URL}/logo.png`,
-    apple: `${FULL_SITE_URL}/logo.png`,
-    shortcut: `${FULL_SITE_URL}/logo.png`,
+    icon: absoluteUrl("/logo.svg"),
+    apple: absoluteUrl("/logo.svg"),
+    shortcut: absoluteUrl("/logo.svg"),
   },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="th" className={`${notoThai.variable} h-full antialiased`}>
-      <body className="min-h-full">
+    <html lang="th" className={`${notoThai.variable} h-full bg-background antialiased`}>
+      <body className="min-h-full bg-background text-foreground">
         <Providers>{children}</Providers>
       </body>
     </html>

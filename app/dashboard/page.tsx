@@ -19,7 +19,7 @@ export default function DashboardPage() {
   const addButton = (
     <AppLink
       href="/dashboard/new/"
-      className={`${actionBtn} shrink-0 bg-near-black text-white hover:bg-near-black-hover`}
+      className={`${actionBtn} shrink-0 rounded-md bg-accent text-accent-foreground hover:bg-accent-hover`}
     >
       + เพิ่มรถ
     </AppLink>
@@ -57,7 +57,7 @@ export default function DashboardPage() {
   return (
     <DashboardShell title="จัดการรถ" action={addButton}>
       {error && (
-        <div className="mb-4 border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="mb-4 border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
           {error}
           <button
             type="button"
@@ -81,13 +81,13 @@ export default function DashboardPage() {
       </div>
 
       {cars.length === 0 ? (
-        <div className="border border-border bg-white px-6 py-16 text-center">
+        <div className="rounded-lg border border-border bg-surface-raised px-6 py-16 text-center">
           <p className="text-sm text-muted">ยังไม่มีรถใน Supabase</p>
           <button
             type="button"
             onClick={handleSeed}
             disabled={seeding}
-            className="mt-4 min-h-[44px] bg-near-black px-6 py-2.5 text-sm text-white hover:bg-near-black-hover disabled:opacity-50"
+            className="mt-4 min-h-[44px] rounded-md bg-accent px-6 py-2.5 text-sm text-accent-foreground hover:bg-accent-hover disabled:opacity-50"
           >
             เพิ่มข้อมูลตัวอย่าง
           </button>
@@ -99,7 +99,7 @@ export default function DashboardPage() {
             {cars.map((car) => (
               <li
                 key={car.slug}
-                className="overflow-hidden border border-border bg-white"
+                className="overflow-hidden rounded-lg border border-border bg-surface-raised"
               >
                 <div className="flex gap-4 p-4">
                   <div className="h-20 w-28 shrink-0 overflow-hidden bg-surface">
@@ -131,13 +131,13 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-3 gap-2 border-t border-border p-3">
                   <AppLink
                     href={carDetailPath(car.slug)}
-                    className={`${actionBtn} border border-border bg-white text-foreground hover:bg-surface`}
+                    className={`${actionBtn} rounded-md border border-border bg-surface text-foreground hover:bg-surface-raised`}
                   >
                     ดู
                   </AppLink>
                   <AppLink
                     href={dashboardEditPath(car.slug)}
-                    className={`${actionBtn} border border-border-dark bg-white text-foreground hover:bg-surface`}
+                    className={`${actionBtn} rounded-md border border-border-dark bg-surface text-foreground hover:bg-surface-raised`}
                   >
                     แก้ไข
                   </AppLink>
@@ -146,7 +146,7 @@ export default function DashboardPage() {
                     onClick={() =>
                       handleDelete(car.slug, `${car.brand} ${car.model}`)
                     }
-                    className={`${actionBtn} border border-red-200 bg-white text-red-600 hover:bg-red-50`}
+                    className={`${actionBtn} rounded-md border border-red-500/40 bg-surface text-red-400 hover:bg-red-500/10`}
                   >
                     ลบ
                   </button>
@@ -156,7 +156,7 @@ export default function DashboardPage() {
           </ul>
 
           {/* Desktop: table */}
-          <div className="hidden border border-border bg-white md:block">
+          <div className="hidden overflow-hidden rounded-lg border border-border bg-surface-raised md:block">
             <table className="w-full text-left text-sm">
               <thead className="border-b border-border bg-surface text-xs text-muted">
                 <tr>
@@ -207,7 +207,7 @@ export default function DashboardPage() {
                         onClick={() =>
                           handleDelete(car.slug, `${car.brand} ${car.model}`)
                         }
-                        className="text-red-600 hover:text-red-800"
+                        className="text-red-400 hover:text-red-300"
                       >
                         ลบ
                       </button>

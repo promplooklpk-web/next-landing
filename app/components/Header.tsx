@@ -49,13 +49,13 @@ export function Header() {
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? "border-b border-black/5 bg-white/90 backdrop-blur-md shadow-sm"
-          : "border-b border-transparent bg-white/60 backdrop-blur-sm"
+          ? "border-b border-border/80 bg-background/92 backdrop-blur-md shadow-sm shadow-black/50"
+          : "border-b border-transparent bg-background/75 backdrop-blur-sm"
       }`}
     >
       <div className="mx-auto flex h-12 max-w-[1400px] items-center justify-between px-6 md:h-14">
-        <AppLink href="/" className="relative z-10 flex items-center gap-2">
-          <Logo size={28} />
+        <AppLink href="/" className="relative z-10 flex items-center gap-2.5">
+          <Logo size={30} className="text-accent" />
           <span className="text-[13px] font-medium tracking-tight text-foreground md:text-sm">
             {shop.name}
           </span>
@@ -66,7 +66,7 @@ export function Header() {
             <a
               key={link.href}
               href={homeHash(link.href.slice(1))}
-              className="text-[13px] font-medium text-foreground/80 transition hover:text-foreground"
+              className="text-[13px] font-medium text-foreground/75 transition hover:text-accent"
               onClick={(e) => handleHashClick(e, link.href)}
             >
               {link.label}
@@ -76,12 +76,12 @@ export function Header() {
 
         <button
           type="button"
-          className="relative z-50 flex h-10 w-10 items-center justify-center md:hidden"
+          className="relative z-50 flex h-10 w-10 items-center justify-center rounded-md text-foreground transition hover:bg-surface md:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "ปิดเมนู" : "เปิดเมนู"}
           aria-expanded={open}
         >
-          <span className="text-lg text-foreground">{open ? "✕" : "☰"}</span>
+          <span className="text-lg">{open ? "✕" : "☰"}</span>
         </button>
       </div>
 
@@ -89,11 +89,11 @@ export function Header() {
         <>
           <button
             type="button"
-            className="fixed inset-0 z-40 bg-black/30 md:hidden"
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-[2px] md:hidden"
             aria-label="ปิดเมนู"
             onClick={() => setOpen(false)}
           />
-          <nav className="relative z-50 border-t border-border bg-white px-6 py-4 shadow-lg md:hidden">
+          <nav className="relative z-50 border-t border-border bg-surface-raised px-6 py-4 shadow-lg shadow-black/40 md:hidden">
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
                 <a

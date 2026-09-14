@@ -1,7 +1,7 @@
 import { AppLink } from "./AppLink";
 
 const base =
-  "relative z-10 inline-flex min-h-[44px] min-w-[200px] items-center justify-center px-8 py-3 text-[13px] font-medium tracking-wide transition-all duration-300";
+  "relative z-10 inline-flex min-h-[44px] min-w-[200px] items-center justify-center rounded-md px-8 py-3 text-[13px] font-medium tracking-wide transition-all duration-300";
 
 export function PrimaryButton({
   href,
@@ -15,8 +15,8 @@ export function PrimaryButton({
   overlay?: boolean;
 }) {
   const className = overlay
-    ? `${base} bg-white text-near-black shadow-lg shadow-black/25 hover:bg-white/95 active:bg-white/90`
-    : `${base} bg-near-black text-white hover:bg-near-black-hover active:bg-near-black`;
+    ? `${base} bg-accent text-accent-foreground shadow-lg shadow-black/40 hover:bg-accent-hover active:brightness-95`
+    : `${base} bg-accent text-accent-foreground hover:bg-accent-hover active:brightness-95`;
 
   return (
     <AppLink href={href} className={className} external={external}>
@@ -39,10 +39,10 @@ export function SecondaryButton({
   overlay?: boolean;
 }) {
   const className = overlay
-    ? `${base} border-2 border-white bg-black/20 text-white backdrop-blur-sm hover:bg-white/15 active:bg-white/25`
+    ? `${base} border-2 border-white/90 bg-black/25 text-white backdrop-blur-sm hover:bg-white/10 active:bg-white/20`
     : dark
       ? `${base} border-2 border-white/80 bg-transparent text-white hover:bg-white/10 active:bg-white/20`
-      : `${base} border border-border-dark bg-transparent text-foreground hover:bg-surface active:bg-surface`;
+      : `${base} border border-border-dark bg-transparent text-foreground hover:border-accent/50 hover:bg-surface active:bg-surface-raised`;
 
   return (
     <AppLink href={href} className={className} external={external}>
