@@ -1,8 +1,8 @@
 import { CarStatus } from "@/data/cars";
 
 const styles: Record<CarStatus, string> = {
-  ว่าง: "border-near-black/20 bg-white text-near-black",
-  จอง: "border-border-dark bg-surface text-foreground",
+  ว่าง: "border-accent/40 bg-accent/10 text-accent",
+  จอง: "border-amber-500/40 bg-amber-500/10 text-amber-200",
   ขายแล้ว: "border-border bg-surface text-muted",
 };
 

@@ -84,7 +84,7 @@ export function CarDetailView({ car }: CarDetailViewProps) {
         </div>
       </section>
 
-      <section className="border-t border-border bg-surface">
+      <section className="border-t border-border bg-surface-raised">
         <div className="mx-auto max-w-[720px] px-6 py-12 md:py-16">
           <h2 className="text-center text-xl font-medium tracking-tight md:text-2xl">
             จุดเด่น
@@ -104,7 +104,7 @@ export function CarDetailView({ car }: CarDetailViewProps) {
         </div>
       </section>
 
-      <section className="border-t border-border bg-surface">
+      <section className="border-t border-border bg-surface-raised">
         <div className="mx-auto max-w-[720px] px-6 py-12 md:py-16">
           <h2 className="text-center text-xl font-medium tracking-tight md:text-2xl">
             อุปกรณ์และฟีเจอร์

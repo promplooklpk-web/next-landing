@@ -19,7 +19,7 @@ export function HeroContent() {
   }, []);
 
   const btnBase =
-    "relative z-10 inline-flex min-h-[44px] min-w-[200px] items-center justify-center px-8 py-3 text-[13px] font-medium tracking-wide transition-all duration-300";
+    "relative z-10 inline-flex min-h-[44px] min-w-[200px] items-center justify-center rounded-md px-8 py-3 text-[13px] font-medium tracking-wide transition-all duration-300";
 
   return (
     <div
@@ -40,14 +40,14 @@ export function HeroContent() {
         <a
           href={homeHash("cars")}
           onClick={(e) => handleHashClick(e, "#cars")}
-          className={`${btnBase} bg-white text-near-black shadow-lg shadow-black/25 hover:bg-white/95 active:bg-white/90`}
+          className={`${btnBase} bg-accent text-accent-foreground shadow-lg shadow-black/40 hover:bg-accent-hover active:brightness-95`}
         >
           ดูรถในร้าน
         </a>
         <a
           href={homeHash("contact")}
           onClick={(e) => handleHashClick(e, "#contact")}
-          className={`${btnBase} border-2 border-white bg-black/20 text-white backdrop-blur-sm hover:bg-white/15 active:bg-white/25`}
+          className={`${btnBase} border-2 border-white/90 bg-black/25 text-white backdrop-blur-sm hover:bg-white/10 active:bg-white/20`}
         >
           ติดต่อเรา
         </a>

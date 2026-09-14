@@ -3,7 +3,7 @@ import { PrimaryButton, SecondaryButton } from "./Buttons";
 
 export function ContactMap() {
   return (
-    <section id="contact" className="bg-white">
+    <section id="contact" className="border-t border-border bg-background">
       <div className="mx-auto max-w-[680px] px-6 py-24 text-center md:py-32">
         <h2 className="text-3xl font-medium tracking-tight md:text-4xl">
           ติดต่อเรา
@@ -21,7 +21,7 @@ export function ContactMap() {
             แชท LINE
           </SecondaryButton>
         </div>
-        <div className="mt-10 w-full overflow-hidden rounded-lg border border-border">
+        <div className="mt-10 w-full overflow-hidden rounded-lg border border-border bg-surface">
           <iframe
             src={shop.location.embedUrl}
             title={`แผนที่ ${shop.name}`}
