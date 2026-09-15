@@ -20,7 +20,7 @@ https://next-landing-cge.pages.dev/ (Cloudflare Pages — sole production host)
 
 ### ข้อมูลร้าน (`data/shop.ts`)
 
-แก้ชื่อร้าน, ที่อยู่, เวลาเปิด, เบอร์โทร, LINE, ขั้นตอนซื้อ ฯลฯ
+แก้ชื่อร้าน, ที่อยู่, เวลาเปิด, เบอร์โทร, ขั้นตอนซื้อ ฯลฯ
 
 ### ข้อมูลรถ (Supabase + seed)
 
