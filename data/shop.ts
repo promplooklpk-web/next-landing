@@ -2,20 +2,22 @@ export const shop = {
   name: "เต็นรถบ้านต้า",
   tagline: "ขายรถมือสองลำปาง คัดสรรคุณภาพ ราคายุติธรรม",
   serviceArea:
-    "บริการขายรถมือสองลำปาง รวมโซนบ้านฟ้อน อำเภอเมือง และพื้นที่ใกล้เคียง",
+    "บริการขายรถมือสองลำปาง ชุมชนบ้านต้า ตำบลชมพู อำเภอเมือง และพื้นที่ใกล้เคียง",
   location: {
     city: "ลำปาง",
     province: "ลำปาง",
     district: "อำเภอเมืองลำปาง",
-    subdistrict: "บ้านฟ้อน",
-    address: "ถนนบุญวัฒนา ตำบลสวนดอก อำเภอเมืองลำปาง จังหวัดลำปาง 52000",
-    lat: 18.2888,
-    lng: 99.4928,
-    mapUrl: "https://www.google.com/maps?q=18.2888,99.4928",
+    subdistrict: "ชมพู",
+    address:
+      "ชุมชนบ้านต้า ถนนพหลโยธิน ตำบลชมพู อำเภอเมืองลำปาง จังหวัดลำปาง 52100",
+    postalCode: "52100",
+    lat: 18.2428553,
+    lng: 99.4428486,
+    mapUrl: "https://maps.app.goo.gl/NJY7NgSUNah8ngiY7",
     embedUrl:
-      "https://maps.google.com/maps?q=18.2888,99.4928&hl=th&z=15&output=embed",
+      "https://maps.google.com/maps?q=18.2428553,99.4428486&hl=th&z=17&output=embed",
     directionsUrl:
-      "https://www.google.com/maps/dir/?api=1&destination=18.2888,99.4928",
+      "https://www.google.com/maps/dir/?api=1&destination=18.2428553,99.4428486",
   },
   hours: "ทุกวัน 09:00–18:00",
   phone: "087-173-0471",
