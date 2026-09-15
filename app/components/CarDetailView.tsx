@@ -52,7 +52,7 @@ export function CarDetailView({ car }: CarDetailViewProps) {
               โทรสอบถาม
             </PrimaryButton>
             <SecondaryButton href={shop.lineUrl} external>
-              แชท LINE
+              {shop.lineCtaLabel}
             </SecondaryButton>
           </div>
         )}

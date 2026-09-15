@@ -40,12 +40,13 @@ const dealerJsonLd = {
   description: shop.tagline,
   url: FULL_SITE_URL,
   telephone: shop.phone,
+  hasMap: shop.location.mapUrl,
   address: {
     "@type": "PostalAddress",
     streetAddress: shop.location.address,
     addressLocality: shop.location.city,
     addressRegion: shop.location.province,
-    postalCode: "52000",
+    postalCode: shop.location.postalCode,
     addressCountry: "TH",
   },
   geo: {
@@ -55,8 +56,8 @@ const dealerJsonLd = {
   },
   areaServed: [
     { "@type": "City", name: "ลำปาง" },
-    { "@type": "AdministrativeArea", name: "อำเภอเมืองลำปาง" },
-    { "@type": "Place", name: "บ้านฟ้อน" },
+    { "@type": "AdministrativeArea", name: shop.location.district },
+    { "@type": "Place", name: "ชุมชนบ้านต้า" },
   ],
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",

@@ -1,6 +1,6 @@
-# ลำปางคาร์มือสอง
+# เต็นรถบ้านต้า
 
-เว็บไซต์รถมือสองสำหรับร้าน **ลำปางคาร์มือสอง** ในลำปาง ประเทศไทย — สร้างด้วย Next.js (App Router) + TypeScript + Tailwind CSS deploy บน **Cloudflare Pages** (root URL)
+เว็บไซต์รถมือสองสำหรับร้าน **เต็นรถบ้านต้า** ในลำปาง ประเทศไทย — สร้างด้วย Next.js (App Router) + TypeScript + Tailwind CSS deploy บน **Cloudflare Pages** (root URL)
 
 ## Live URL
 
