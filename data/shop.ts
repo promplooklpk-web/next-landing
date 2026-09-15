@@ -22,8 +22,10 @@ export const shop = {
   hours: "ทุกวัน 09:00–18:00",
   phone: "087-173-0471",
   phoneTel: "0871730471",
-  line: "0871730471",
-  lineUrl: "https://line.me/ti/p/~0871730471",
+  /** Add friend on LINE using the shop mobile number (E.164 in URL, not a LINE ID) */
+  lineUrl: "https://line.me/ti/p/+66871730471",
+  lineCtaLabel: "เพิ่มเพื่อน Line ด้วยเบอร์",
+  lineShortLabel: "Line",
   email: "contact@tenrodbaan.local",
 } as const;
 

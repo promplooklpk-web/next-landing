@@ -8,9 +8,9 @@ export function MobileFloatingCTA() {
         target="_blank"
         rel="noopener noreferrer"
         className="flex h-10 items-center justify-center rounded-md border border-border-dark bg-surface-raised/95 px-4 text-[11px] font-medium tracking-wide text-foreground shadow-lg shadow-black/40 backdrop-blur-sm"
-        aria-label="ติดต่อ LINE"
+        aria-label={`${shop.lineCtaLabel} ${shop.phone}`}
       >
-        LINE
+        {shop.lineShortLabel}
       </a>
       <a
         href={`tel:${shop.phoneTel}`}
