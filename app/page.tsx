@@ -45,7 +45,7 @@ const dealerJsonLd = {
     streetAddress: shop.location.address,
     addressLocality: shop.location.city,
     addressRegion: shop.location.province,
-    postalCode: "52000",
+    postalCode: shop.location.postalCode,
     addressCountry: "TH",
   },
   geo: {
@@ -56,7 +56,7 @@ const dealerJsonLd = {
   areaServed: [
     { "@type": "City", name: "ลำปาง" },
     { "@type": "AdministrativeArea", name: "อำเภอเมืองลำปาง" },
-    { "@type": "Place", name: "บ้านฟ้อน" },
+    { "@type": "Place", name: "ชุมชนบ้านต้า" },
   ],
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",
