@@ -1,37 +1,20 @@
-/** Placeholder until NEXT_PUBLIC_SITE_URL is set at build time */
-const CF_PLACEHOLDER_ORIGIN = "https://next-landing-cge.pages.dev";
-
-function resolveBasePath(): string {
-  return process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-}
+/** Canonical live site (Cloudflare Pages). Override with NEXT_PUBLIC_SITE_URL at build time. */
+export const CANONICAL_SITE_ORIGIN = "https://next-landing-cge.pages.dev";
 
 function resolveSiteOrigin(): string {
   const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-  if (fromEnv) return fromEnv;
-  return CF_PLACEHOLDER_ORIGIN;
+  return fromEnv || CANONICAL_SITE_ORIGIN;
 }
 
-/** Active basePath for this build (empty on Cloudflare root deploy) */
-export const BASE_PATH = resolveBasePath();
-
-/** Site origin without basePath, e.g. https://next-landing-cge.pages.dev */
+/** Public site origin — used for metadataBase, Open Graph, sitemap, and absolute URLs */
 export const SITE_URL = resolveSiteOrigin();
 
-/** Full public site URL including basePath when applicable */
-export const FULL_SITE_URL = BASE_PATH
-  ? `${SITE_URL}${BASE_PATH}`
-  : SITE_URL;
+/** Same as SITE_URL (root deploy on Cloudflare; no subpath) */
+export const FULL_SITE_URL = SITE_URL;
 
-/** Prefix a public asset path with basePath when deployed under a subpath */
+/** Normalize a public asset path (root deploy — no basePath prefix) */
 export function assetPath(path: string): string {
-  const normalized = path.startsWith("/") ? path : `/${path}`;
-  const prefix = resolveBasePath();
-
-  if (!prefix) return normalized;
-  if (normalized === prefix || normalized.startsWith(`${prefix}/`)) {
-    return normalized;
-  }
-  return `${prefix}${normalized}`;
+  return path.startsWith("/") ? path : `/${path}`;
 }
 
 export function absoluteUrl(path = ""): string {
@@ -46,10 +29,9 @@ export function carDetailUrl(slug: string): string {
   return absoluteUrl(`/cars/${slug}/`);
 }
 
-/** True when pathname is the site homepage (root or basePath home) */
+/** True when pathname is the site homepage */
 export function isHomePagePath(pathname: string): boolean {
-  const home = assetPath("/");
   const withSlash = (p: string) =>
     p === "/" ? "/" : p.endsWith("/") ? p : `${p}/`;
-  return withSlash(pathname) === withSlash(home);
+  return withSlash(pathname) === "/";
 }

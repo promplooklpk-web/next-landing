@@ -1,7 +1,7 @@
 import type { MouseEvent } from "react";
 import { assetPath, isHomePagePath } from "@/lib/site";
 
-/** Build an in-app path with basePath prefix */
+/** Build an in-app path (root deploy) */
 export function appPath(path: string): string {
   if (path.startsWith("http") || path.startsWith("tel:") || path.startsWith("mailto:")) {
     return path;

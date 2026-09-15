@@ -4,7 +4,7 @@
 
 ## Live URL
 
-https://next-landing-cge.pages.dev
+https://next-landing-cge.pages.dev/ (Cloudflare Pages — sole production host)
 
 ## หน้าเว็บ
 
