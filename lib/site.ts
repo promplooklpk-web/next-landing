@@ -1,33 +1,20 @@
-/** Defaults when env vars are not set (GitHub Pages project site) */
-const GH_SITE_ORIGIN = "https://promplooklpk-web.github.io";
-const GH_BASE_PATH = "/next-landing";
-
-/** Placeholder until first Cloudflare deploy — override with NEXT_PUBLIC_SITE_URL */
+/** Placeholder until NEXT_PUBLIC_SITE_URL is set at build time */
 const CF_PLACEHOLDER_ORIGIN = "https://next-landing-cge.pages.dev";
 
 function resolveBasePath(): string {
-  if (process.env.NEXT_PUBLIC_BASE_PATH !== undefined) {
-    return process.env.NEXT_PUBLIC_BASE_PATH;
-  }
-  if (process.env.GITHUB_PAGES === "true") {
-    return GH_BASE_PATH;
-  }
-  return "";
+  return process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 }
 
 function resolveSiteOrigin(): string {
   const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
   if (fromEnv) return fromEnv;
-  if (process.env.GITHUB_PAGES === "true") {
-    return GH_SITE_ORIGIN;
-  }
   return CF_PLACEHOLDER_ORIGIN;
 }
 
 /** Active basePath for this build (empty on Cloudflare root deploy) */
 export const BASE_PATH = resolveBasePath();
 
-/** Site origin without basePath, e.g. https://lampang-cars.pages.dev */
+/** Site origin without basePath, e.g. https://next-landing-cge.pages.dev */
 export const SITE_URL = resolveSiteOrigin();
 
 /** Full public site URL including basePath when applicable */

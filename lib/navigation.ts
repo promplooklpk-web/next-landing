@@ -10,7 +10,7 @@ export function appPath(path: string): string {
   return assetPath(normalized);
 }
 
-/** Home URL with hash anchor, e.g. /next-landing/#cars */
+/** Home URL with hash anchor, e.g. /#cars */
 export function homeHash(hash: string): string {
   const id = hash.startsWith("#") ? hash.slice(1) : hash;
   return `${assetPath("/")}#${id}`;

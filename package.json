@@ -6,7 +6,6 @@
     "dev": "next dev",
     "prebuild": "node scripts/generate-static-slugs.mjs",
     "build": "next build",
-    "build:pages": "GITHUB_PAGES=true NODE_ENV=production next build",
     "start": "next start",
     "lint": "eslint"
   },

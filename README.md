@@ -1,13 +1,10 @@
 # ลำปางคาร์มือสอง
 
-เว็บไซต์รถมือสองสำหรับร้าน **ลำปางคาร์มือสอง** ในลำปาง ประเทศไทย — สร้างด้วย Next.js (App Router) + TypeScript + Tailwind CSS รองรับ deploy บน **GitHub Pages** (subpath) และ **Cloudflare Pages** (root URL)
+เว็บไซต์รถมือสองสำหรับร้าน **ลำปางคาร์มือสอง** ในลำปาง ประเทศไทย — สร้างด้วย Next.js (App Router) + TypeScript + Tailwind CSS deploy บน **Cloudflare Pages** (root URL)
 
-## Live URLs
+## Live URL
 
-| Host | URL |
-|------|-----|
-| GitHub Pages | https://promplooklpk-web.github.io/next-landing/ |
-| Cloudflare Pages | https://next-landing-cge.pages.dev |
+https://next-landing-cge.pages.dev
 
 ## หน้าเว็บ
 
@@ -40,22 +37,19 @@
 
 รถที่เพิ่ม **หลัง** deploy ล่าสุด → ลิงก์อัตโนมัติไป `/cars/view/?slug=...` (ไม่ 404) จนกว่าจะ redeploy
 
-หลัง push ไป `main` workflow จะ rebuild อัตโนมัติ
+หลัง push ไป `main` ให้ redeploy บน Cloudflare (หรือรอ auto-deploy จาก Git) เพื่อ rebuild
 
 ### Environment variables
 
 คัดลอกจาก `.env.example`:
 
-| Variable | GitHub Pages | Cloudflare Pages |
-|----------|--------------|------------------|
-| `GITHUB_PAGES` | `true` | **ไม่ตั้ง** |
-| `NEXT_PUBLIC_SITE_URL` | `https://promplooklpk-web.github.io` | `https://next-landing-cge.pages.dev` |
-| `NEXT_PUBLIC_SUPABASE_URL` | ✓ | ✓ |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✓ (anon only) | ✓ (anon only) |
+| Variable | Cloudflare Pages |
+|----------|------------------|
+| `NEXT_PUBLIC_SITE_URL` | `https://next-landing-cge.pages.dev` |
+| `NEXT_PUBLIC_SUPABASE_URL` | ✓ |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✓ (anon only) |
 
-`NEXT_PUBLIC_BASE_PATH` ถูกตั้งอัตโนมัติเป็น `/next-landing` เมื่อ `GITHUB_PAGES=true` เท่านั้น
-
-**ค่าเริ่มต้น (baked in):** Supabase URL + anon key อยู่ใน `lib/supabase-public.json` — Cloudflare/GitHub build ใช้ได้ทันทีโดยไม่ต้องตั้ง env
+**ค่าเริ่มต้น (baked in):** Supabase URL + anon key อยู่ใน `lib/supabase-public.json` — Cloudflare build ใช้ได้ทันทีโดยไม่ต้องตั้ง env
 
 **Override (optional):** ตั้ง `NEXT_PUBLIC_SUPABASE_*` / `NEXT_PUBLIC_SITE_URL` ใน env ตอน build ถ้าต้องการเปลี่ยนโปรเจกต์หรือโดเมน
 
@@ -66,14 +60,11 @@ npm install
 npm run dev
 ```
 
-เปิด http://localhost:3000 (ไม่มี basePath ในโหมด dev)
+เปิด http://localhost:3000
 
 ## Build
 
 ```bash
-# GitHub Pages (subpath /next-landing)
-npm run build:pages
-
 # Cloudflare Pages (root URL) — prebuild รันอัตโนมัติก่อน next build
 NODE_ENV=production \
   NEXT_PUBLIC_SITE_URL=https://next-landing-cge.pages.dev \
@@ -83,16 +74,6 @@ NODE_ENV=production \
 ```
 
 ผลลัพธ์อยู่ในโฟลเดอร์ `out/`
-
-## Deploy — GitHub Pages
-
-Push ไปที่ branch `main` จะ trigger workflow `.github/workflows/deploy-github-pages.yml` อัตโนมัติ
-
-### เปิดใช้ GitHub Pages (ครั้งแรก)
-
-1. ไปที่ **Settings → Pages**
-2. ตั้ง **Source** เป็น **GitHub Actions**
-3. รอ workflow สำเร็จ — เว็บจะอยู่ที่ URL ด้านบน
 
 ## Deploy — Cloudflare Pages
 
@@ -105,10 +86,9 @@ Push ไปที่ branch `main` จะ trigger workflow `.github/workflows/de
 4. **Environment variables** — ตั้งทั้ง **Production** และ **Preview** (ใช้ตอน build):
    ```
    NEXT_PUBLIC_SUPABASE_URL=https://kxbeofqiahloeqkillvy.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=<same anon key as GitHub Actions>
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon key>
    NEXT_PUBLIC_SITE_URL=https://next-landing-cge.pages.dev
    ```
-   **ไม่ตั้ง** `GITHUB_PAGES`
 
    ใน Cloudflare dashboard: **Settings → Environment variables** → เลือก scope **Build** (หรือ Production ที่ใช้ตอน build) → Save → **Retry deployment**
 
@@ -122,5 +102,4 @@ Push ไปที่ branch `main` จะ trigger workflow `.github/workflows/de
 - TypeScript
 - Tailwind CSS v4
 - `next/image` (unoptimized)
-- basePath `/next-landing` เฉพาะเมื่อ `GITHUB_PAGES=true` (GitHub Pages)
-- root deploy บน Cloudflare Pages (`basePath` ว่าง)
+- Static export ที่ root URL บน Cloudflare Pages
