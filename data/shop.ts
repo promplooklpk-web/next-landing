@@ -6,14 +6,14 @@ export const shop = {
   location: {
     city: "ลำปาง",
     province: "ลำปาง",
-    district: "อำเภอเมืองลำปาง",
+    district: "อำเภอเมือง",
     subdistrict: "ชมพู",
     address:
-      "ชุมชนบ้านต้า ถนนพหลโยธิน ตำบลชมพู อำเภอเมืองลำปาง จังหวัดลำปาง 52100",
+      "577 หมู่ 10 ตำบลชมพู อำเภอเมือง จังหวัดลำปาง 52100",
     postalCode: "52100",
     lat: 18.2428553,
     lng: 99.4428486,
-    mapUrl: "https://maps.app.goo.gl/NJY7NgSUNah8ngiY7",
+    mapUrl: "https://maps.app.goo.gl/NJY7NgSUNah8ngiY7?g_st=ic",
     embedUrl:
       "https://maps.google.com/maps?q=18.2428553,99.4428486&hl=th&z=17&output=embed",
     directionsUrl:

@@ -40,6 +40,7 @@ const dealerJsonLd = {
   description: shop.tagline,
   url: FULL_SITE_URL,
   telephone: shop.phone,
+  hasMap: shop.location.mapUrl,
   address: {
     "@type": "PostalAddress",
     streetAddress: shop.location.address,
@@ -55,7 +56,7 @@ const dealerJsonLd = {
   },
   areaServed: [
     { "@type": "City", name: "ลำปาง" },
-    { "@type": "AdministrativeArea", name: "อำเภอเมืองลำปาง" },
+    { "@type": "AdministrativeArea", name: shop.location.district },
     { "@type": "Place", name: "ชุมชนบ้านต้า" },
   ],
   openingHoursSpecification: {
