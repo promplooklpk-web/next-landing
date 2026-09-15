@@ -9,7 +9,6 @@ export const BUILD_TIME_CAR_SLUGS: readonly string[] = [
   "toyota-camry-2019-hybrid",
   "toyota-fortuner-2018-diesel",
   "toyota-hilux-2018-revo",
-  "toyota-vios-15-entry-2021",
   "toyota-vios-2021"
 ];
 
