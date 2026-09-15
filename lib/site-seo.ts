@@ -16,4 +16,4 @@ export const SEO_DEFAULT_TITLE = `${SEO_PRIMARY} | ${shop.name}`;
 
 export const SEO_DEFAULT_DESCRIPTION =
   `${SEO_PRIMARY} คัดสรรคุณภาพ ราคายุติธรรม บริการโซนเมืองลำปางและบ้านฟ้อน ` +
-  `เปิดทุกวัน ${shop.hours} โทร/Line ${shop.phone}`;
+  `เปิดทุกวัน ${shop.hours} โทร ${shop.phone}`;

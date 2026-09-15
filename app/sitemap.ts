@@ -25,12 +25,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "daily",
       priority: 1,
     },
-    {
-      url: absoluteUrl("/line/"),
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
     ...carPages,
   ];
 }

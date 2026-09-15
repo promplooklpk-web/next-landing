@@ -1,5 +1,5 @@
 import { shop } from "@/data/shop";
-import { PrimaryButton, SecondaryButton } from "./Buttons";
+import { PrimaryButton } from "./Buttons";
 
 export function ContactMap() {
   return (
@@ -18,17 +18,10 @@ export function ContactMap() {
             {shop.phone}
           </a>
         </p>
-        <p className="mt-2 text-sm text-foreground/90">
-          {shop.lineShortLabel}{" "}
-          <span className="font-medium text-foreground">{shop.phone}</span>
-        </p>
-        <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
+        <div className="mt-10 flex justify-center">
           <PrimaryButton href={`tel:${shop.phoneTel}`} external>
             โทร {shop.phone}
           </PrimaryButton>
-          <SecondaryButton href={shop.lineUrl}>
-            {shop.lineShortLabel}
-          </SecondaryButton>
         </div>
         <div className="mt-10 w-full rounded-lg border border-border bg-surface-raised px-5 py-5 text-left md:px-6">
           <p className="text-xs font-medium tracking-wide text-accent">

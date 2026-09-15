@@ -1,5 +1,5 @@
 import { shop } from "@/data/shop";
-import { PrimaryButton, SecondaryButton } from "./Buttons";
+import { PrimaryButton } from "./Buttons";
 
 export function PromoSection() {
   return (
@@ -16,13 +16,10 @@ export function PromoSection() {
           นำรถเก่ามาประเมินราคาฟรี แลกเปลี่ยนรถใหม่ได้ทันที
           ช่วยจัดไฟแนนซ์ผ่อนสบาย
         </p>
-        <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
-          <PrimaryButton href={shop.lineUrl}>
-            {shop.lineShortLabel}
-          </PrimaryButton>
-          <SecondaryButton href={`tel:${shop.phoneTel}`} external dark>
+        <div className="mt-10 flex justify-center">
+          <PrimaryButton href={`tel:${shop.phoneTel}`} external>
             โทรประเมินราคา
-          </SecondaryButton>
+          </PrimaryButton>
         </div>
       </div>
     </section>

@@ -3,7 +3,7 @@ import { shop } from "@/data/shop";
 import { homeHash } from "@/lib/navigation";
 import { AppLink } from "./AppLink";
 import { CarGallery } from "./CarGallery";
-import { PrimaryButton, SecondaryButton } from "./Buttons";
+import { PrimaryButton } from "./Buttons";
 
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200&q=80";
@@ -47,13 +47,10 @@ export function CarDetailView({ car }: CarDetailViewProps) {
         )}
 
         {!car.sold && (
-          <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
+          <div className="mt-10 flex justify-center">
             <PrimaryButton href={`tel:${shop.phoneTel}`} external>
               โทรสอบถาม
             </PrimaryButton>
-            <SecondaryButton href={shop.lineUrl}>
-              {shop.lineShortLabel}
-            </SecondaryButton>
           </div>
         )}
 
