@@ -1,5 +1,5 @@
 export const shop = {
-  name: "ลำปางคาร์มือสอง",
+  name: "เต็นรถบ้านต้า",
   tagline: "ขายรถมือสองลำปาง คัดสรรคุณภาพ ราคายุติธรรม",
   serviceArea:
     "บริการขายรถมือสองลำปาง รวมโซนบ้านฟ้อน อำเภอเมือง และพื้นที่ใกล้เคียง",
@@ -18,11 +18,11 @@ export const shop = {
       "https://www.google.com/maps/dir/?api=1&destination=18.2888,99.4928",
   },
   hours: "ทุกวัน 09:00–18:00",
-  phone: "080-000-0000",
-  phoneTel: "0800000000",
-  line: "@lampangcars",
-  lineUrl: "https://line.me/R/ti/p/@lampangcars",
-  email: "info@lampangcars.local",
+  phone: "087-173-0471",
+  phoneTel: "0871730471",
+  line: "0871730471",
+  lineUrl: "https://line.me/ti/p/~0871730471",
+  email: "contact@tenrodbaan.local",
 } as const;
 
 export const howToBuySteps = [
