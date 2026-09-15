@@ -27,8 +27,8 @@ export function ContactMap() {
           <PrimaryButton href={`tel:${shop.phoneTel}`} external>
             โทร {shop.phone}
           </PrimaryButton>
-          <SecondaryButton href={shop.lineUrl} external>
-            {shop.lineCtaLabel}
+          <SecondaryButton href={shop.lineUrl}>
+            {shop.lineShortLabel}
           </SecondaryButton>
         </div>
         <div className="mt-10 w-full rounded-lg border border-border bg-surface-raised px-5 py-5 text-left md:px-6">

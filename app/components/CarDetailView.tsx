@@ -51,8 +51,8 @@ export function CarDetailView({ car }: CarDetailViewProps) {
             <PrimaryButton href={`tel:${shop.phoneTel}`} external>
               โทรสอบถาม
             </PrimaryButton>
-            <SecondaryButton href={shop.lineUrl} external>
-              {shop.lineCtaLabel}
+            <SecondaryButton href={shop.lineUrl}>
+              {shop.lineShortLabel}
             </SecondaryButton>
           </div>
         )}

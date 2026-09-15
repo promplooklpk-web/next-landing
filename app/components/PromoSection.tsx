@@ -17,8 +17,8 @@ export function PromoSection() {
           ช่วยจัดไฟแนนซ์ผ่อนสบาย
         </p>
         <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
-          <PrimaryButton href={shop.lineUrl} external>
-            {shop.lineCtaLabel}
+          <PrimaryButton href={shop.lineUrl}>
+            {shop.lineShortLabel}
           </PrimaryButton>
           <SecondaryButton href={`tel:${shop.phoneTel}`} external dark>
             โทรประเมินราคา
