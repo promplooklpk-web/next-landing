@@ -22,7 +22,6 @@ export function ContactMap() {
           {shop.lineShortLabel}{" "}
           <span className="font-medium text-foreground">{shop.phone}</span>
         </p>
-        <p className="mt-1 text-xs text-muted">{shop.lineCtaLabel}</p>
         <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
           <PrimaryButton href={`tel:${shop.phoneTel}`} external>
             โทร {shop.phone}
