@@ -1,6 +1,7 @@
 "use client";
 
 import { shop } from "@/data/shop";
+import { CATEGORY_PAGES, categoryPath } from "@/lib/category-pages";
 import { AppLink } from "./AppLink";
 import { Logo } from "./Logo";
 
@@ -14,13 +15,22 @@ export function Footer() {
             © {new Date().getFullYear()} {shop.name}
           </p>
         </div>
-        <nav className="flex flex-wrap justify-center gap-8">
+        <nav className="flex flex-wrap justify-center gap-x-8 gap-y-3">
           <AppLink
             href="#cars"
             className="text-xs text-white/60 transition hover:text-accent"
           >
             รถในร้าน
           </AppLink>
+          {CATEGORY_PAGES.map((category) => (
+            <AppLink
+              key={category.id}
+              href={categoryPath(category)}
+              className="text-xs text-white/60 transition hover:text-accent"
+            >
+              {category.h1}
+            </AppLink>
+          ))}
           <AppLink
             href="#contact"
             className="text-xs text-white/60 transition hover:text-accent"

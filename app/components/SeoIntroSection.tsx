@@ -1,4 +1,6 @@
 import { shop } from "@/data/shop";
+import { CATEGORY_PAGES, categoryPath } from "@/lib/category-pages";
+import { AppLink } from "./AppLink";
 
 export function SeoIntroSection() {
   return (
@@ -19,7 +21,20 @@ export function SeoIntroSection() {
             ทดลองขับ และปรึกษาเรื่องการโอนกรรมสิทธิ์ได้ที่โชว์รูมของเรา
           </p>
           <ul className="list-inside list-disc space-y-2 pl-1">
-            <li>รถมือสองหลายยี่ห้อ — เก๋ง กระบะ SUV ไมล์น้อย ประวัติชัดเจน</li>
+            <li>
+              รถมือสองหลายยี่ห้อ — ดูตามหมวด{" "}
+              {CATEGORY_PAGES.map((category, index) => (
+                <span key={category.id}>
+                  {index > 0 ? " · " : null}
+                  <AppLink
+                    href={categoryPath(category)}
+                    className="text-foreground underline-offset-4 hover:text-accent hover:underline"
+                  >
+                    {category.h1}
+                  </AppLink>
+                </span>
+              ))}
+            </li>
             <li>บริการขายรถมือสองบ้านฟ้อนและใกล้เคียง — นัดดูรถล่วงหน้าได้</li>
             <li>
               รับซื้อ-แลกเปลี่ยน ประเมินราคาฟรี ติดต่อผ่านโทร {shop.phone}
