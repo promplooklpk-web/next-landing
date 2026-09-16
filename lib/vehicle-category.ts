@@ -1,40 +1,41 @@
-import type { CarBodyType } from "@/lib/car-body-type";
+import { Car, VehicleBodyType } from "@/data/cars";
 
-export type CategoryPageId = "pickup" | "sedan" | "suv";
+export type { VehicleBodyType };
+
+export type CategorySlug = VehicleBodyType;
 
 export interface CategoryFaq {
   question: string;
   answer: string;
 }
 
-export interface CategoryPageConfig {
-  id: CategoryPageId;
-  bodyType: CarBodyType;
-  /** URL path segment (no leading slash), trailing slash added by Next */
-  path: string;
+export interface VehicleCategoryConfig {
+  slug: CategorySlug;
+  path: `/${string}/`;
   h1: string;
-  metaTitle: string;
-  metaDescription: string;
-  intro: string;
+  title: string;
+  description: string;
+  intro: string[];
+  chipLabel: string;
   adviceHeading: string;
   adviceParagraphs: string[];
   useCasesHeading: string;
   useCases: string[];
   faqs: CategoryFaq[];
-  relatedCategoryIds: CategoryPageId[];
 }
 
-export const CATEGORY_PAGES: CategoryPageConfig[] = [
-  {
-    id: "pickup",
-    bodyType: "pickup",
-    path: "ro-krab-mue-song-lampang",
+export const VEHICLE_CATEGORIES: Record<CategorySlug, VehicleCategoryConfig> = {
+  pickup: {
+    slug: "pickup",
+    path: "/ro-krab-mue-song-lampang/",
     h1: "รถกระบะมือสองลำปาง",
-    metaTitle: "รถกระบะมือสองลำปาง | เต็นรถบ้านต้า",
-    metaDescription:
+    title: "รถกระบะมือสองลำปาง",
+    description:
       "รถกระบะมือสองลำปาง คัดสรรจากเต็นรถบ้านต้า ตรวจสภาพก่อนส่งมอบ เหมาะงานเกษตร ขนของ และใช้งานจริงในอำเภอเมืองลำปาง โทร 087-173-0471",
-    intro:
+    intro: [
       "กำลังมองหารถกระบะมือสองในลำปางสำหรับงานหนัก ขนสินค้า หรือใช้ในพื้นที่ชนบทและเส้นทางขึ้นเขาใกล้บ้านฟ้อน? ที่เต็นรถบ้านต้าเราคัดรถกระบะที่เหมาะกับการใช้งานจริงในลำปาง — ทั้งดีเซลประหยัด เกียร์ธรรมดาซ่อมง่าย และรุ่นนั่งสบายสำหรับครอบครัว",
+    ],
+    chipLabel: "กระบะ",
     adviceHeading: "คำแนะนำซื้อรถกระบะมือสองในลำปาง",
     adviceParagraphs: [
       "ลำปางมีทั้งถนนในเมือง ทางหลวงไปแพร่–เชียงใหม่ และเส้นทางขึ้นเขาในตำบลชมพูและพื้นที่ใกล้บ้านฟ้อน ควรเลือกกระบะที่ช่วงล่างไม่รั่ว โครงกระบะไม่บิด และเครื่องดีเซลไม่มีควันเข้มผิดปกติ หากใช้ขนของบ่อย ตรวจความสูงขอบกระบะและสภาพยางคู่หลังเป็นพิเศษ",
@@ -63,34 +64,34 @@ export const CATEGORY_PAGES: CategoryPageConfig[] = [
           "เต็นรถบ้านต้า 577 หมู่ 10 ตำบลชมพู อำเภอเมือง จังหวัดลำปาง 52100 นัดล่วงหน้าได้ทางโทร 087-173-0471",
       },
     ],
-    relatedCategoryIds: ["sedan", "suv"],
   },
-  {
-    id: "sedan",
-    bodyType: "sedan",
-    path: "ro-keng-mue-song-lampang",
+  sedan: {
+    slug: "sedan",
+    path: "/ro-keng-mue-song-lampang/",
     h1: "รถเก๋งมือสองลำปาง",
-    metaTitle: "รถเก๋งมือสองลำปาง | เต็นรถบ้านต้า",
-    metaDescription:
+    title: "รถเก๋งมือสองลำปาง",
+    description:
       "รถเก๋งมือสองลำปาง ประหยัดน้ำมัน ขับในเมืองสะดวก คัดสรรจากเต็นรถบ้านต้า บริการโซนเมืองลำปางและบ้านฟ้อน โทร 087-173-0471",
-    intro:
-      "รถเก๋งมือสองเป็นตัวเลือกยอดนิยมสำหรับคนทำงานในเมืองลำปาง ครู ข้าราชการ และครอบครัวเล็กที่ต้องการประหยัดน้ำมัน จอดง่าย และดูแลไม่ยาก ที่เต็นรถบ้านต้าเรามีเก๋งและแฮตช์แบ็กคล่องตัวหลายรุ่น ตรวจสภาพก่อนประกาศขาย",
+    intro: [
+      "รถเก๋งมือสองเป็นตัวเลือกยอดนิยมสำหรับคนทำงานในเมืองลำปาง ครอบครัวเล็ก และผู้ที่ต้องการประหยัดน้ำมัน จอดง่าย ดูแลไม่ยาก ที่เต็นรถบ้านต้าเรามีเก๋งและแฮตช์แบ็กคล่องตัวหลายรุ่น ตรวจสภาพก่อนประกาศขาย",
+    ],
+    chipLabel: "เก๋ง",
     adviceHeading: "คำแนะนำซื้อรถเก๋งมือสองในลำปาง",
     adviceParagraphs: [
-      "การใช้รถในเมืองลำปางและทางหลวงสายหลัก เน้นความประหยัด ระบบเบรก–ช่วงล่างที่ยังแน่น และห้องโดยสารสะอาดไม่ชื้น หากขับทุกวัน ควรดูสภาพยาง แบตเตอรี่ และประวัติเปลี่ยนถ่ายน้ำมันเครื่อง รถไมล์น้อยไม่ได้หมายความว่าไม่ต้องตรวจโครงสร้างตัวถัง",
-      "รุ่นไฮบริดหรือเบนซินขนาด 1.5–2.5 ลิตรมักตอบโจทย์การเดินทางในลำปาง–แพร่ ลูกค้าจากบ้านฟ้อนที่ต้องการรถคันเดียวใช้ทั้งในเมืองและกลับบ้านช่วงเย็น มักเลือกเก๋งที่บังคับง่ายและมีกล้องถอยช่วยจอดในร้านค้าแน่บ",
+      "การใช้รถในเมืองลำปางและทางหลวงสายหลัก เน้นความประหยัด ระบบเบรก–ช่วงล่างที่ยังแน่น และห้องโดยสารสะอาดไม่ชื้น หากขับทุกวัน ควรดูสภาพยาง แบตเตอรี่ และประวัติเปลี่ยนถ่ายน้ำมันเครื่อง",
+      "รุ่นไฮบริดหรือเบนซินขนาด 1.5–2.5 ลิตรมักตอบโจทย์การเดินทางในลำปาง–แพร่ ลูกค้าจากบ้านฟ้อนที่ต้องการรถคันเดียวใช้ทั้งในเมืองและกลับบ้านช่วงเย็น มักเลือกเก๋งที่บังคับง่ายและมีกล้องถอยช่วยจอด",
     ],
     useCasesHeading: "เหมาะกับชีวิตในลำปางแบบไหน",
     useCases: [
       "เดินทางทำงานในเมืองลำปางทุกวัน ต้องการค่าใช้จ่ายต่อกิโลเมตรต่ำ",
-      "ครอบครัวเล็กหรือคู่รักที่ต้องการรถสองตอนหลังสะดวก ไปตลาด โรงเรียน หรือเที่ยวใกล้เคียง",
+      "ครอบครัวเล็กที่ต้องการรถสองตอนหลังสะดวก ไปตลาด โรงเรียน หรือเที่ยวใกล้เคียง",
       "มือใหม่หรือผู้ที่ต้องการรถดูแลง่าย ซ่อมอะไหล่หาได้ทั่วไปในลำปาง",
     ],
     faqs: [
       {
         question: "รถเก๋งมือสองที่ร้านมีรุ่นไหนให้เลือก?",
         answer:
-          "ขึ้นกับสต็อกปัจจุบัน เช่น Toyota Vios Camry Honda Civic Jazz และเก๋งยอดนิยมอื่น ๆ รายการด้านล่างอัปเดตจากรถว่างจริง หากไม่พบรุ่นที่ต้องการ โทร 087-173-0471 เพื่อให้ช่วยหาหรือแจ้งรถเข้าใหม่",
+          "ขึ้นกับสต็อกปัจจุบัน เช่น Toyota Vios Camry Honda Civic Jazz และเก๋งยอดนิยมอื่น ๆ รายการด้านล่างอัปเดตจากรถว่างจริง หากไม่พบรุ่นที่ต้องการ โทร 087-173-0471",
       },
       {
         question: "ซื้อเก๋งมือสองต้องเตรียมเอกสารอะไร?",
@@ -103,22 +104,22 @@ export const CATEGORY_PAGES: CategoryPageConfig[] = [
           "ได้ครับ แนะนำนัดหมายล่วงหน้าโทร 087-173-0471 เพื่อจัดเวลาทดลองขับในพื้นที่ใกล้ร้านตำบลชมพู",
       },
     ],
-    relatedCategoryIds: ["pickup", "suv"],
   },
-  {
-    id: "suv",
-    bodyType: "suv",
-    path: "ro-suv-mue-song-lampang",
+  suv: {
+    slug: "suv",
+    path: "/ro-suv-mue-song-lampang/",
     h1: "รถ SUV มือสองลำปาง",
-    metaTitle: "รถ SUV มือสองลำปาง | เต็นรถบ้านต้า",
-    metaDescription:
+    title: "รถ SUV มือสองลำปาง",
+    description:
       "รถ SUV มือสองลำปาง 7 ที่นั่งและครอบครัว คัดสรรจากเต็นรถบ้านต้า เหมาะเดินทางขึ้นเขาและทางหลวงจากลำปาง โทร 087-173-0471",
-    intro:
-      "รถ SUV มือสองช่วยให้ครอบครัวในลำปางนั่งสบาย มุมมองสูง และมั่นใจเวลาเดินทางไกลไปเชียงใหม่ แพร่ หรือขึ้นเขาในวันหยุด เต็นรถบ้านต้าคัด SUV ที่สภาพพร้อมใช้ ทั้งรุ่น 7 ที่นั่งและครอบครัวขนาดกลาง",
+    intro: [
+      "รถ SUV มือสองช่วยให้ครอบครัวในลำปางนั่งสบาย มุมมองสูง และมั่นใจเวลาเดินทางไกลไปเชียงใหม่ แพร่ หรือขึ้นเขาในวันหยุด เต็นรถบ้านต้าคัด SUV ที่สภาพพร้อมใช้ แจ้งรายละเอียดราคาและเลขไมล์ชัดเจนในแต่ละคัน",
+    ],
+    chipLabel: "SUV",
     adviceHeading: "คำแนะนำซื้อรถ SUV มือสองในลำปาง",
     adviceParagraphs: [
-      "SUV ในลำปางมักใช้ทั้งในเมืองและทางขึ้นเขา ควรตรวจช่วงล่าง โช้คอัพ ระบบขับเคลื่อน และสัญญาณผิดปกติจากเครื่องดีเซลหรือเบนซินตอนเร่งบนทางลาด หากมี 7 ที่นั่ง ลองพับเบาะแถวสามและตรวจพื้นที่บรรทุกจริง",
-      "รุ่นยอดนิยมอย่าง Toyota Fortuner หรือคู่แข่งในกลุ่มเดียวกันมักได้รับความสนใจจากลูกค้าที่เดินทางครอบครัวบ่อย เราไม่ระบุราคาหรือสถิติที่ไม่ได้มาจากรถในสต็อก — ดูรายละเอียดและราคาต่อคันจากรายการด้านล่างหรือโทรสอบถาม",
+      "SUV ในลำปางมักใช้ทั้งในเมืองและทางขึ้นเขา ควรตรวจช่วงล่าง โช้คอัพ ระบบขับเคลื่อน และสัญญาณผิดปกติจากเครื่องตอนเร่งบนทางลาด หากมี 7 ที่นั่ง ลองพับเบาะแถวสามและตรวจพื้นที่บรรทุกจริง",
+      "รุ่นยอดนิยมอย่าง Toyota Fortuner หรือคู่แข่งในกลุ่มเดียวกันมักได้รับความสนใจจากลูกค้าที่เดินทางครอบครัวบ่อย ดูรายละเอียดและราคาต่อคันจากรายการด้านล่างหรือโทรสอบถาม",
     ],
     useCasesHeading: "ทำไม SUV มือสองจึงเหมาะกับลำปาง",
     useCases: [
@@ -130,12 +131,12 @@ export const CATEGORY_PAGES: CategoryPageConfig[] = [
       {
         question: "มี SUV 7 ที่นั่งมือสองให้ดูไหม?",
         answer:
-          "มีเป็นช่วง ๆ ตามสต็อก เช่น Toyota Fortuner และรุ่น 7 ที่นั่งอื่น ตรวจรายการรถว่างในหน้านี้ หากช่วงนี้ไม่มีคันว่าง โทร 087-173-0471 เพื่อสอบถามรถที่จะเข้าหรือช่วยหาให้",
+          "มีเป็นช่วง ๆ ตามสต็อก เช่น Toyota Fortuner และรุ่น 7 ที่นั่งอื่น ตรวจรายการรถว่างในหน้านี้ หากช่วงนี้ไม่มีคันว่าง โทร 087-173-0471",
       },
       {
         question: "SUV ดีเซลหรือเบนซินดีกว่าสำหรับใช้ในลำปาง?",
         answer:
-          "ดีเซลมักแรงบิดดีสำหรับทางขึ้นและเดินทางไกล เบนซินอาจเงียบและบำรุงรักษาง่ายในบางรุ่น ขึ้นกับงานหลักและงบของคุณ เราช่วยเปรียบเทียบตามคันที่ดูจริง",
+          "ดีเซลมักแรงบิดดีสำหรับทางขึ้น เบนซินอาจบำรุงง่ายในบางรุ่น ขึ้นกับงานหลักของคุณ เราช่วยเปรียบเทียบตามคันที่ดูจริง",
       },
       {
         question: "เต็นรถบ้านต้าอยู่ที่ไหน?",
@@ -143,24 +144,41 @@ export const CATEGORY_PAGES: CategoryPageConfig[] = [
           "577 หมู่ 10 ตำบลชมพู อำเภอเมือง จังหวัดลำปาง เปิดทุกวัน 09:00–18:00 โทร 087-173-0471",
       },
     ],
-    relatedCategoryIds: ["pickup", "sedan"],
   },
-];
+};
 
-const byId = new Map(CATEGORY_PAGES.map((c) => [c.id, c]));
-const byPath = new Map(CATEGORY_PAGES.map((c) => [c.path, c]));
+const PICKUP_MODEL =
+  /\b(d-?max|hilux|navara|ranger|colorado|triton|carry|revo)\b/i;
+const SUV_MODEL =
+  /\b(fortuner|everest|cr-?v|hr-?v|cx-?[35]|pajero|x-?trail|tucson|creta|santa\s*fe|yaris\s*cross|corolla\s*cross|mu-?x|trailblazer)\b/i;
 
-export function getCategoryById(id: CategoryPageId): CategoryPageConfig {
-  const config = byId.get(id);
-  if (!config) throw new Error(`Unknown category: ${id}`);
-  return config;
+function carHaystack(car: Car): string {
+  return `${car.brand} ${car.model} ${car.engine} ${car.description} ${car.features.join(" ")}`;
 }
 
-export function getCategoryByPath(path: string): CategoryPageConfig | undefined {
-  const normalized = path.replace(/^\/|\/$/g, "");
-  return byPath.get(normalized);
+/** Resolve body type from stored field or model heuristics (Supabase rows without body_type). */
+export function getCarBodyType(car: Car): VehicleBodyType {
+  if (car.bodyType) return car.bodyType;
+  const haystack = carHaystack(car);
+  if (/กระบะท้าย|magic seat/i.test(haystack)) return "sedan";
+  if (PICKUP_MODEL.test(haystack) || /กระบะ/.test(haystack)) return "pickup";
+  if (SUV_MODEL.test(haystack) || /\b7\s*ที่นั่ง\b/.test(haystack)) return "suv";
+  return "sedan";
 }
 
-export function categoryPath(config: CategoryPageConfig): string {
-  return `/${config.path}/`;
+export function filterCarsByCategory(
+  cars: Car[],
+  category: CategorySlug,
+  availableOnly = true
+): Car[] {
+  return cars.filter((car) => {
+    if (availableOnly && car.sold) return false;
+    return getCarBodyType(car) === category;
+  });
+}
+
+export const CATEGORY_SLUGS: CategorySlug[] = ["pickup", "sedan", "suv"];
+
+export function relatedCategories(current: CategorySlug): CategorySlug[] {
+  return CATEGORY_SLUGS.filter((slug) => slug !== current);
 }

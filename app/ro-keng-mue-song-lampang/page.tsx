@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
-import { CategoryLocalPage } from "@/app/components/CategoryLocalPage";
-import { getCategoryById } from "@/lib/category-pages";
+import { CategoryInventoryPage } from "../components/CategoryInventoryPage";
 import { categoryPageMetadata } from "@/lib/category-seo";
 
-const config = getCategoryById("sedan");
-
-export const metadata: Metadata = categoryPageMetadata(config);
+export const metadata = categoryPageMetadata("sedan");
 
 export default function SedanCategoryPage() {
-  return <CategoryLocalPage categoryId="sedan" />;
+  return <CategoryInventoryPage category="sedan" />;
 }

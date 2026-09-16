@@ -7,7 +7,9 @@ import {
   CarStatus,
   FuelType,
   Transmission,
+  VehicleBodyType,
 } from "@/data/cars";
+import { VEHICLE_CATEGORIES } from "@/lib/vehicle-category";
 import { useCarStore } from "@/contexts/CarStoreContext";
 import { emptyCar, generateSlug, statusToSold } from "@/lib/car-store";
 import { uploadCarImages } from "@/lib/car-images";
@@ -21,6 +23,7 @@ interface PendingImage {
 const transmissions: Transmission[] = ["ออโต้", "เกียร์ธรรมดา"];
 const fuels: FuelType[] = ["เบนซิน", "ดีเซล", "ไฮบริด"];
 const statuses: CarStatus[] = ["ว่าง", "จอง", "ขายแล้ว"];
+const bodyTypes: VehicleBodyType[] = ["pickup", "sedan", "suv"];
 
 interface CarFormProps {
   initial?: Car;
@@ -216,6 +219,22 @@ export function CarForm({ initial, mode }: CarFormProps) {
             >
               {fuels.map((f) => (
                 <option key={f} value={f}>{f}</option>
+              ))}
+            </select>
+          </label>
+          <label className={labelClass}>
+            <span className="text-muted">ประเภทรถ</span>
+            <select
+              className={inputClass}
+              value={form.bodyType ?? "sedan"}
+              onChange={(e) =>
+                update("bodyType", e.target.value as VehicleBodyType)
+              }
+            >
+              {bodyTypes.map((t) => (
+                <option key={t} value={t}>
+                  {VEHICLE_CATEGORIES[t].chipLabel}
+                </option>
               ))}
             </select>
           </label>

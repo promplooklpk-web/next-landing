@@ -1,7 +1,7 @@
 "use client";
 
 import { shop } from "@/data/shop";
-import { CATEGORY_PAGES, categoryPath } from "@/lib/category-pages";
+import { CATEGORY_SLUGS, VEHICLE_CATEGORIES } from "@/lib/vehicle-category";
 import { AppLink } from "./AppLink";
 import { Logo } from "./Logo";
 
@@ -22,13 +22,13 @@ export function Footer() {
           >
             รถในร้าน
           </AppLink>
-          {CATEGORY_PAGES.map((category) => (
+          {CATEGORY_SLUGS.map((slug) => (
             <AppLink
-              key={category.id}
-              href={categoryPath(category)}
+              key={slug}
+              href={VEHICLE_CATEGORIES[slug].path}
               className="text-xs text-white/60 transition hover:text-accent"
             >
-              {category.h1}
+              {VEHICLE_CATEGORIES[slug].h1}
             </AppLink>
           ))}
           <AppLink

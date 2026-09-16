@@ -1,31 +1,33 @@
 "use client";
 
 import { useCarStore } from "@/contexts/CarStoreContext";
-import type { CarBodyType } from "@/lib/car-body-type";
-import { filterCarsByBodyType } from "@/lib/car-body-type";
 import { shop } from "@/data/shop";
 import { homeHash } from "@/lib/navigation";
+import {
+  CategorySlug,
+  filterCarsByCategory,
+  VEHICLE_CATEGORIES,
+} from "@/lib/vehicle-category";
 import { PrimaryButton } from "./Buttons";
-import { CategoryCarCard } from "./CategoryCarCard";
+import { CarCard } from "./CarCard";
 
 interface CategoryInventorySectionProps {
-  bodyType: CarBodyType;
-  inventoryHeading: string;
-  emptyMessage: string;
+  category: CategorySlug;
 }
 
-export function CategoryInventorySection({
-  bodyType,
-  inventoryHeading,
-  emptyMessage,
-}: CategoryInventorySectionProps) {
+export function CategoryInventorySection({ category }: CategoryInventorySectionProps) {
+  const config = VEHICLE_CATEGORIES[category];
   const { cars, ready, loading, error } = useCarStore();
+
+  const emptyMessage =
+    `ขณะนี้ยังไม่มีรถ${config.chipLabel}ว่างในเว็บ — สต็อกเปลี่ยนบ่อย โทร ${shop.phone} ` +
+    `เพื่อสอบถามรถที่กำลังจะเข้าหรือนัดดูรถที่โชว์รูมตำบลชมพู`;
 
   return (
     <section className="border-t border-border bg-background" aria-labelledby="category-inventory">
-      <div className="mx-auto max-w-[1200px] px-6 py-16 md:py-20">
-        <h2 id="category-inventory" className="text-2xl font-medium tracking-tight md:text-3xl">
-          {inventoryHeading}
+      <div className="mx-auto max-w-[1400px] px-6 py-14 md:py-16">
+        <h2 id="category-inventory" className="text-lg font-medium tracking-tight md:text-xl">
+          รถ{config.chipLabel}ที่พร้อมขาย
         </h2>
 
         {!ready || loading ? (
@@ -38,34 +40,32 @@ export function CategoryInventorySection({
             </a>{" "}
             เพื่อสอบถามสต็อกล่าสุด
           </p>
-        ) : (
-          (() => {
-            const available = filterCarsByBodyType(cars, bodyType).filter((c) => !c.sold);
-            if (available.length === 0) {
-              return (
-                <div className="mt-8 rounded-lg border border-border bg-surface px-6 py-10 text-center">
-                  <p className="text-sm leading-relaxed text-muted">{emptyMessage}</p>
-                  <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                    <PrimaryButton href={`tel:${shop.phoneTel}`} external>
-                      โทร {shop.phone}
-                    </PrimaryButton>
-                    <PrimaryButton href={homeHash("cars")}>ดูรถทั้งหมดในหน้าแรก</PrimaryButton>
-                  </div>
-                </div>
-              );
-            }
-
+        ) : (() => {
+          const available = filterCarsByCategory(cars, category);
+          if (available.length === 0) {
             return (
-              <ul className="mt-10 grid list-none gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {available.map((car) => (
-                  <li key={car.slug}>
-                    <CategoryCarCard car={car} />
-                  </li>
-                ))}
-              </ul>
+              <div className="mt-8 rounded-lg border border-border bg-surface px-6 py-10 text-center">
+                <p className="text-sm leading-relaxed text-muted">{emptyMessage}</p>
+                <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                  <PrimaryButton href={`tel:${shop.phoneTel}`} external>
+                    โทร {shop.phone}
+                  </PrimaryButton>
+                  <PrimaryButton href={homeHash("cars")}>ดูรถทั้งหมดในหน้าแรก</PrimaryButton>
+                </div>
+              </div>
             );
-          })()
-        )}
+          }
+
+          return (
+            <ul className="mt-8 grid list-none gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {available.map((car) => (
+                <li key={car.slug}>
+                  <CarCard car={car} />
+                </li>
+              ))}
+            </ul>
+          );
+        })()}
       </div>
     </section>
   );

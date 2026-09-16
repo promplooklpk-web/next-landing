@@ -1,5 +1,5 @@
 import { shop } from "@/data/shop";
-import { CATEGORY_PAGES, categoryPath } from "@/lib/category-pages";
+import { CATEGORY_SLUGS, VEHICLE_CATEGORIES } from "@/lib/vehicle-category";
 import { AppLink } from "./AppLink";
 
 export function SeoIntroSection() {
@@ -23,14 +23,14 @@ export function SeoIntroSection() {
           <ul className="list-inside list-disc space-y-2 pl-1">
             <li>
               รถมือสองหลายยี่ห้อ — ดูตามหมวด{" "}
-              {CATEGORY_PAGES.map((category, index) => (
-                <span key={category.id}>
+              {CATEGORY_SLUGS.map((slug, index) => (
+                <span key={slug}>
                   {index > 0 ? " · " : null}
                   <AppLink
-                    href={categoryPath(category)}
+                    href={VEHICLE_CATEGORIES[slug].path}
                     className="text-foreground underline-offset-4 hover:text-accent hover:underline"
                   >
-                    {category.h1}
+                    {VEHICLE_CATEGORIES[slug].h1}
                   </AppLink>
                 </span>
               ))}
