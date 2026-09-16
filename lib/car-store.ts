@@ -1,4 +1,5 @@
 import { Car } from "@/data/cars";
+import { getCarBodyType } from "@/lib/vehicle-category";
 
 export function generateSlug(brand: string, model: string, year: number): string {
   const base = `${brand}-${model}-${year}`
@@ -32,5 +33,13 @@ export function emptyCar(): Omit<Car, "slug"> & { slug?: string } {
     status: "ว่าง",
     sold: false,
     featured: false,
+    bodyType: "sedan",
+  };
+}
+
+export function withResolvedBodyType(car: Car): Car {
+  return {
+    ...car,
+    bodyType: car.bodyType ?? getCarBodyType(car),
   };
 }

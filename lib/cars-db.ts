@@ -1,5 +1,7 @@
 import { Car, CarStatus, FuelType, Transmission, cars as seedCars } from "@/data/cars";
 import { generateSlug, statusToSold } from "@/lib/car-store";
+import { VehicleBodyType } from "@/data/cars";
+import { getCarBodyType } from "@/lib/vehicle-category";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 export interface CarRow {
@@ -21,6 +23,7 @@ export interface CarRow {
   status: CarStatus;
   sold: boolean;
   featured: boolean;
+  body_type?: VehicleBodyType | null;
   created_at?: string;
   updated_at?: string;
 }
@@ -33,8 +36,9 @@ function assertClient() {
 }
 
 export function rowToCar(row: CarRow): Car {
-  return {
+  const car: Car = {
     slug: row.slug,
+    bodyType: row.body_type ?? undefined,
     brand: row.brand,
     model: row.model,
     year: row.year,
@@ -52,6 +56,10 @@ export function rowToCar(row: CarRow): Car {
     sold: row.sold,
     featured: row.featured,
   };
+  if (!car.bodyType) {
+    car.bodyType = getCarBodyType(car);
+  }
+  return car;
 }
 
 export function carToRow(car: Car): Omit<CarRow, "id" | "created_at" | "updated_at"> {

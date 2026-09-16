@@ -1,9 +1,11 @@
 export type Transmission = "ออโต้" | "เกียร์ธรรมดา";
 export type FuelType = "เบนซิน" | "ดีเซล" | "ไฮบริด";
 export type CarStatus = "ว่าง" | "จอง" | "ขายแล้ว";
+export type VehicleBodyType = "pickup" | "sedan" | "suv";
 
 export interface Car {
   slug: string;
+  bodyType?: VehicleBodyType;
   brand: string;
   model: string;
   year: number;
@@ -28,6 +30,7 @@ const img = (id: string, w = 1200) =>
 export const cars: Car[] = [
   {
     slug: "toyota-camry-2019-hybrid",
+    bodyType: "sedan",
     brand: "Toyota",
     model: "Camry 2.5 Hybrid",
     year: 2019,
@@ -61,6 +64,7 @@ export const cars: Car[] = [
   },
   {
     slug: "honda-civic-2020-turbo",
+    bodyType: "sedan",
     brand: "Honda",
     model: "Civic 1.5 Turbo",
     year: 2020,
@@ -94,6 +98,7 @@ export const cars: Car[] = [
   },
   {
     slug: "toyota-fortuner-2018-diesel",
+    bodyType: "suv",
     brand: "Toyota",
     model: "Fortuner 2.4 V",
     year: 2018,
@@ -127,6 +132,7 @@ export const cars: Car[] = [
   },
   {
     slug: "toyota-vios-2021",
+    bodyType: "sedan",
     brand: "Toyota",
     model: "Vios 1.5 Entry",
     year: 2021,
@@ -160,6 +166,7 @@ export const cars: Car[] = [
   },
   {
     slug: "honda-jazz-2019",
+    bodyType: "sedan",
     brand: "Honda",
     model: "Jazz 1.5 i-VTEC",
     year: 2019,
@@ -193,6 +200,7 @@ export const cars: Car[] = [
   },
   {
     slug: "isuzu-dmax-2020-z",
+    bodyType: "pickup",
     brand: "Isuzu",
     model: "D-Max 1.9 Z",
     year: 2020,
@@ -226,6 +234,7 @@ export const cars: Car[] = [
   },
   {
     slug: "nissan-navara-2019-calibre",
+    bodyType: "pickup",
     brand: "Nissan",
     model: "Navara 2.3 Calibre",
     year: 2019,
@@ -259,6 +268,7 @@ export const cars: Car[] = [
   },
   {
     slug: "toyota-hilux-2018-revo",
+    bodyType: "pickup",
     brand: "Toyota",
     model: "Hilux Revo 2.4 E",
     year: 2018,
