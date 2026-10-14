@@ -88,7 +88,7 @@ export async function CategoryInventoryPage({
           </div>
         </section>
 
-        <CategoryInventorySection category={category} />
+        <CategoryInventorySection category={category} initialCars={buildCars} />
 
         <section className="border-t border-border bg-surface">
           <div className="mx-auto max-w-[720px] px-6 py-14 md:py-16">
