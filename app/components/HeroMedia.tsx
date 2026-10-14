@@ -8,8 +8,6 @@ const FADE_MS = 800;
 const TOTAL_MS = SCRAMBLE_MS + FADE_MS;
 /** Skip dense ASCII work on narrow viewports for mobile performance. */
 const MOBILE_MAX_WIDTH = 768;
-const DESKTOP_COLS = 120;
-const TABLET_COLS = 80;
 
 interface HeroMediaProps {
   src: string;
@@ -24,9 +22,7 @@ function isNarrowViewport(): boolean {
   return window.matchMedia(`(max-width: ${MOBILE_MAX_WIDTH - 1}px)`).matches;
 }
 
-function sampleAscii(img: HTMLImageElement, cols: number): string[] {
-  const aspect = img.naturalHeight / img.naturalWidth;
-  const rows = Math.max(12, Math.floor(cols * aspect * 0.52));
+function sampleAscii(img: HTMLImageElement, cols: number, rows: number): string[] {
   const canvas = document.createElement("canvas");
   canvas.width = cols;
   canvas.height = rows;
@@ -72,14 +68,54 @@ function scrambleFrame(target: string[], progress: number): string[] {
   );
 }
 
+function paintAscii(
+  canvas: HTMLCanvasElement,
+  lines: string[],
+  accent: string,
+  background: string
+) {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = canvas.clientWidth;
+  const h = canvas.clientHeight;
+  if (w === 0 || h === 0 || lines.length === 0) return;
+
+  canvas.width = Math.floor(w * dpr);
+  canvas.height = Math.floor(h * dpr);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.fillStyle = background;
+  ctx.fillRect(0, 0, w, h);
+
+  const rows = lines.length;
+  const cols = lines[0]!.length;
+  const cellW = w / cols;
+  const cellH = h / rows;
+  const fontSize = Math.max(4, Math.min(cellW * 1.65, cellH * 0.95));
+
+  ctx.fillStyle = accent;
+  ctx.font = `${fontSize}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  for (let y = 0; y < rows; y++) {
+    const line = lines[y]!;
+    for (let x = 0; x < cols; x++) {
+      const ch = line[x]!;
+      if (ch === " ") continue;
+      ctx.fillText(ch, (x + 0.5) * cellW, (y + 0.5) * cellH);
+    }
+  }
+}
+
 export function HeroMedia({ src, alt }: HeroMediaProps) {
-  const preRef = useRef<HTMLPreElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const targetRef = useRef<string[]>([]);
   const rafRef = useRef(0);
   const [phase, setPhase] = useState<"pending" | "ascii" | "photo">("pending");
   const [asciiOpacity, setAsciiOpacity] = useState(1);
 
-  // Sample image → enter ascii phase (or skip on reduced-motion / mobile)
   useEffect(() => {
     if (prefersReducedMotion() || isNarrowViewport()) {
       setPhase("photo");
@@ -97,11 +133,13 @@ export function HeroMedia({ src, alt }: HeroMediaProps) {
     img.onload = () => {
       if (cancelled) return;
       window.clearTimeout(failSafe);
-      const cols =
-        window.innerWidth < 1024
-          ? Math.min(TABLET_COLS, Math.floor(window.innerWidth / 8))
-          : Math.min(DESKTOP_COLS, Math.floor(window.innerWidth / 9));
-      const target = sampleAscii(img, Math.max(48, cols));
+
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      // ~7–9px cells — dense enough to read as the shopfront, light on CPU
+      const cols = Math.max(64, Math.min(140, Math.floor(vw / 8)));
+      const rows = Math.max(36, Math.min(80, Math.floor(vh / 10)));
+      const target = sampleAscii(img, cols, rows);
       if (target.length === 0) {
         setPhase("photo");
         return;
@@ -124,35 +162,36 @@ export function HeroMedia({ src, alt }: HeroMediaProps) {
     };
   }, [src]);
 
-  // Run scramble only after the <pre> is mounted for the ascii phase
   useEffect(() => {
     if (phase !== "ascii") return;
 
     const target = targetRef.current;
-    if (target.length === 0) {
+    const canvas = canvasRef.current;
+    if (target.length === 0 || !canvas) {
       setPhase("photo");
       return;
     }
 
     let cancelled = false;
     const start = performance.now();
+    const styles = getComputedStyle(document.documentElement);
+    const accent = styles.getPropertyValue("--accent").trim() || "#2dd4bf";
+    const background =
+      styles.getPropertyValue("--background").trim() || "#0b0d10";
 
-    // Paint first frame immediately so the overlay isn't blank
-    if (preRef.current) {
-      preRef.current.textContent = scrambleFrame(target, 0).join("\n");
-    }
+    paintAscii(canvas, scrambleFrame(target, 0), accent, background);
 
     const tick = (now: number) => {
       if (cancelled) return;
       const elapsed = now - start;
       const scrambleProgress = Math.min(1, elapsed / SCRAMBLE_MS);
 
-      if (preRef.current) {
-        preRef.current.textContent = scrambleFrame(
-          target,
-          scrambleProgress
-        ).join("\n");
-      }
+      paintAscii(
+        canvas,
+        scrambleFrame(target, scrambleProgress),
+        accent,
+        background
+      );
 
       if (elapsed < TOTAL_MS) {
         if (elapsed >= SCRAMBLE_MS) {
@@ -188,16 +227,12 @@ export function HeroMedia({ src, alt }: HeroMediaProps) {
         decoding="async"
       />
       {showAscii ? (
-        <div
-          className="hero-ascii absolute inset-0 z-[1] overflow-hidden bg-background"
+        <canvas
+          ref={canvasRef}
+          className="hero-ascii absolute inset-0 z-[1] h-full w-full"
           style={{ opacity: asciiOpacity }}
           aria-hidden
-        >
-          <pre
-            ref={preRef}
-            className="hero-ascii__pre absolute inset-0 m-0 overflow-hidden whitespace-pre p-0 font-mono leading-[1.05] tracking-tight text-accent"
-          />
-        </div>
+        />
       ) : null}
       {phase === "pending" ? (
         <div className="absolute inset-0 z-[1] bg-background" aria-hidden />
