@@ -9,6 +9,7 @@ import { JsonLd } from "./components/JsonLd";
 import { MobileFloatingCTA } from "./components/MobileFloatingCTA";
 import { PromoSection } from "./components/PromoSection";
 import { SeoIntroSection } from "./components/SeoIntroSection";
+import { StatsSection } from "./components/StatsSection";
 import { VehicleTypeSection } from "./components/VehicleTypeSection";
 import { shop } from "@/data/shop";
 import { FULL_SITE_URL } from "@/lib/site";
@@ -85,6 +86,7 @@ export default function Home() {
       <main>
         <Hero />
         <VehicleTypeSection />
+        <StatsSection />
         <CarsSection />
         <PromoSection />
         <HowToBuy />

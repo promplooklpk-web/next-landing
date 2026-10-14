@@ -1,4 +1,5 @@
 import { CATEGORY_SLUGS, VEHICLE_CATEGORIES } from "@/lib/vehicle-category";
+import { AnimateIn } from "./AnimateIn";
 import { AppLink } from "./AppLink";
 
 export function VehicleTypeSection() {
@@ -7,7 +8,7 @@ export function VehicleTypeSection() {
       className="border-b border-border bg-background py-10 md:py-12"
       aria-labelledby="vehicle-types-heading"
     >
-      <div className="mx-auto max-w-[1400px] px-6">
+      <AnimateIn className="mx-auto max-w-[1400px] px-6">
         <h2
           id="vehicle-types-heading"
           className="text-center text-lg font-medium tracking-tight md:text-xl"
@@ -40,7 +41,7 @@ export function VehicleTypeSection() {
             ทั้งหมด
           </AppLink>
         </nav>
-      </div>
+      </AnimateIn>
     </section>
   );
 }

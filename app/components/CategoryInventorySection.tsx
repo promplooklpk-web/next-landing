@@ -8,6 +8,7 @@ import {
   filterCarsByCategory,
   VEHICLE_CATEGORIES,
 } from "@/lib/vehicle-category";
+import { AnimateIn } from "./AnimateIn";
 import { PrimaryButton } from "./Buttons";
 import { CarCard } from "./CarCard";
 
@@ -26,9 +27,11 @@ export function CategoryInventorySection({ category }: CategoryInventorySectionP
   return (
     <section className="border-t border-border bg-background" aria-labelledby="category-inventory">
       <div className="mx-auto max-w-[1400px] px-6 py-14 md:py-16">
-        <h2 id="category-inventory" className="text-lg font-medium tracking-tight md:text-xl">
-          รถ{config.chipLabel}ที่พร้อมขาย
-        </h2>
+        <AnimateIn>
+          <h2 id="category-inventory" className="text-lg font-medium tracking-tight md:text-xl">
+            รถ{config.chipLabel}ที่พร้อมขาย
+          </h2>
+        </AnimateIn>
 
         {!ready || loading ? (
           <p className="mt-8 text-sm text-muted">กำลังโหลดรถในหมวดนี้...</p>
@@ -44,23 +47,27 @@ export function CategoryInventorySection({ category }: CategoryInventorySectionP
           const available = filterCarsByCategory(cars, category);
           if (available.length === 0) {
             return (
-              <div className="mt-8 rounded-lg border border-border bg-surface px-6 py-10 text-center">
-                <p className="text-sm leading-relaxed text-muted">{emptyMessage}</p>
-                <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                  <PrimaryButton href={`tel:${shop.phoneTel}`} external>
-                    โทร {shop.phone}
-                  </PrimaryButton>
-                  <PrimaryButton href={homeHash("cars")}>ดูรถทั้งหมดในหน้าแรก</PrimaryButton>
+              <AnimateIn className="mt-8">
+                <div className="rounded-lg border border-border bg-surface px-6 py-10 text-center">
+                  <p className="text-sm leading-relaxed text-muted">{emptyMessage}</p>
+                  <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                    <PrimaryButton href={`tel:${shop.phoneTel}`} external>
+                      โทร {shop.phone}
+                    </PrimaryButton>
+                    <PrimaryButton href={homeHash("cars")}>ดูรถทั้งหมดในหน้าแรก</PrimaryButton>
+                  </div>
                 </div>
-              </div>
+              </AnimateIn>
             );
           }
 
           return (
             <ul className="mt-8 grid list-none gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {available.map((car) => (
+              {available.map((car, index) => (
                 <li key={car.slug}>
-                  <CarCard car={car} />
+                  <AnimateIn delay={Math.min(index * 80, 320)}>
+                    <CarCard car={car} />
+                  </AnimateIn>
                 </li>
               ))}
             </ul>
