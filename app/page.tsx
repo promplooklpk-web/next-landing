@@ -92,7 +92,7 @@ export default async function Home() {
         <Hero />
         <VehicleTypeSection />
         <StatsSection initialStats={inventoryStats} />
-        <CarsSection />
+        <CarsSection initialCars={buildCars} />
         <PromoSection />
         <HowToBuy />
         <SeoIntroSection />
