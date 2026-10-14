@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const CHARSET = " .:-=+*#%@";
-const SCRAMBLE_MS = 1400;
-const FADE_MS = 700;
+const SCRAMBLE_MS = 1600;
+const FADE_MS = 800;
 const TOTAL_MS = SCRAMBLE_MS + FADE_MS;
 /** Skip dense ASCII work on narrow viewports for mobile performance. */
 const MOBILE_MAX_WIDTH = 768;
@@ -74,15 +74,12 @@ function scrambleFrame(target: string[], progress: number): string[] {
 
 export function HeroMedia({ src, alt }: HeroMediaProps) {
   const preRef = useRef<HTMLPreElement>(null);
+  const targetRef = useRef<string[]>([]);
+  const rafRef = useRef(0);
   const [phase, setPhase] = useState<"pending" | "ascii" | "photo">("pending");
   const [asciiOpacity, setAsciiOpacity] = useState(1);
-  const rafRef = useRef(0);
 
-  const finishToPhoto = useCallback(() => {
-    setAsciiOpacity(0);
-    window.setTimeout(() => setPhase("photo"), FADE_MS);
-  }, []);
-
+  // Sample image → enter ascii phase (or skip on reduced-motion / mobile)
   useEffect(() => {
     if (prefersReducedMotion() || isNarrowViewport()) {
       setPhase("photo");
@@ -92,7 +89,6 @@ export function HeroMedia({ src, alt }: HeroMediaProps) {
     let cancelled = false;
     const img = new Image();
     img.decoding = "async";
-    let start = 0;
 
     const failSafe = window.setTimeout(() => {
       if (!cancelled) setPhase("photo");
@@ -110,32 +106,9 @@ export function HeroMedia({ src, alt }: HeroMediaProps) {
         setPhase("photo");
         return;
       }
+      targetRef.current = target;
+      setAsciiOpacity(1);
       setPhase("ascii");
-      start = performance.now();
-
-      const tick = (now: number) => {
-        if (cancelled) return;
-        const elapsed = now - start;
-        const scrambleProgress = Math.min(1, elapsed / SCRAMBLE_MS);
-
-        if (preRef.current) {
-          preRef.current.textContent = scrambleFrame(
-            target,
-            scrambleProgress
-          ).join("\n");
-        }
-
-        if (elapsed < TOTAL_MS) {
-          if (elapsed >= SCRAMBLE_MS) {
-            setAsciiOpacity(1 - (elapsed - SCRAMBLE_MS) / FADE_MS);
-          }
-          rafRef.current = requestAnimationFrame(tick);
-        } else {
-          finishToPhoto();
-        }
-      };
-
-      rafRef.current = requestAnimationFrame(tick);
     };
 
     img.onerror = () => {
@@ -148,9 +121,59 @@ export function HeroMedia({ src, alt }: HeroMediaProps) {
     return () => {
       cancelled = true;
       window.clearTimeout(failSafe);
+    };
+  }, [src]);
+
+  // Run scramble only after the <pre> is mounted for the ascii phase
+  useEffect(() => {
+    if (phase !== "ascii") return;
+
+    const target = targetRef.current;
+    if (target.length === 0) {
+      setPhase("photo");
+      return;
+    }
+
+    let cancelled = false;
+    const start = performance.now();
+
+    // Paint first frame immediately so the overlay isn't blank
+    if (preRef.current) {
+      preRef.current.textContent = scrambleFrame(target, 0).join("\n");
+    }
+
+    const tick = (now: number) => {
+      if (cancelled) return;
+      const elapsed = now - start;
+      const scrambleProgress = Math.min(1, elapsed / SCRAMBLE_MS);
+
+      if (preRef.current) {
+        preRef.current.textContent = scrambleFrame(
+          target,
+          scrambleProgress
+        ).join("\n");
+      }
+
+      if (elapsed < TOTAL_MS) {
+        if (elapsed >= SCRAMBLE_MS) {
+          setAsciiOpacity(1 - (elapsed - SCRAMBLE_MS) / FADE_MS);
+        }
+        rafRef.current = requestAnimationFrame(tick);
+      } else {
+        setAsciiOpacity(0);
+        window.setTimeout(() => {
+          if (!cancelled) setPhase("photo");
+        }, 40);
+      }
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      cancelled = true;
       cancelAnimationFrame(rafRef.current);
     };
-  }, [src, finishToPhoto]);
+  }, [phase]);
 
   const showAscii = phase === "ascii";
 

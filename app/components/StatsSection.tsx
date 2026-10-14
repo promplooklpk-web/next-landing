@@ -2,42 +2,27 @@
 
 import { useMemo } from "react";
 import { useCarStore } from "@/contexts/CarStoreContext";
-import { getCarBodyType } from "@/lib/vehicle-category";
+import { buildInventoryStats, InventoryStat } from "@/lib/inventory-stats";
 import { AnimateIn } from "./AnimateIn";
 import { CountUp } from "./CountUp";
 
-interface StatItem {
-  label: string;
-  value: number;
-  suffix?: string;
+interface StatsSectionProps {
+  /** Build-time inventory stats (static export); live store overrides when ready. */
+  initialStats: InventoryStat[];
 }
 
-export function StatsSection() {
-  const { cars, ready, loading, error } = useCarStore();
+export function StatsSection({ initialStats }: StatsSectionProps) {
+  const { cars, ready, error } = useCarStore();
 
-  const stats = useMemo((): StatItem[] => {
-    const available = cars.filter((car) => !car.sold);
-    if (available.length === 0) return [];
-
-    const brands = new Set(available.map((car) => car.brand));
-    const bodyTypes = new Set(available.map((car) => getCarBodyType(car)));
-    const items: StatItem[] = [
-      { label: "รถพร้อมขาย", value: available.length, suffix: "คัน" },
-      { label: "ยี่ห้อในสต็อก", value: brands.size, suffix: "ยี่ห้อ" },
-    ];
-
-    if (bodyTypes.size > 1) {
-      items.push({
-        label: "ประเภทที่มีในร้าน",
-        value: bodyTypes.size,
-        suffix: "ประเภท",
-      });
+  const stats = useMemo((): InventoryStat[] => {
+    if (ready && !error && cars.length > 0) {
+      const live = buildInventoryStats(cars);
+      if (live.length > 0) return live;
     }
+    return initialStats;
+  }, [cars, ready, error, initialStats]);
 
-    return items;
-  }, [cars]);
-
-  if (!ready || loading || error || stats.length === 0) {
+  if (stats.length === 0) {
     return null;
   }
 
