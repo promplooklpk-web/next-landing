@@ -9,8 +9,11 @@ import { JsonLd } from "./components/JsonLd";
 import { MobileFloatingCTA } from "./components/MobileFloatingCTA";
 import { PromoSection } from "./components/PromoSection";
 import { SeoIntroSection } from "./components/SeoIntroSection";
+import { StatsSection } from "./components/StatsSection";
 import { VehicleTypeSection } from "./components/VehicleTypeSection";
 import { shop } from "@/data/shop";
+import { fetchCarsAtBuild } from "@/lib/cars-build";
+import { buildInventoryStats } from "@/lib/inventory-stats";
 import { FULL_SITE_URL } from "@/lib/site";
 import {
   SEO_DEFAULT_DESCRIPTION,
@@ -77,7 +80,10 @@ const dealerJsonLd = {
   priceRange: "฿฿",
 };
 
-export default function Home() {
+export default async function Home() {
+  const buildCars = await fetchCarsAtBuild();
+  const inventoryStats = buildInventoryStats(buildCars);
+
   return (
     <>
       <JsonLd data={dealerJsonLd} />
@@ -85,6 +91,7 @@ export default function Home() {
       <main>
         <Hero />
         <VehicleTypeSection />
+        <StatsSection initialStats={inventoryStats} />
         <CarsSection />
         <PromoSection />
         <HowToBuy />

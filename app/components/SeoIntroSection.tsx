@@ -1,11 +1,12 @@
 import { shop } from "@/data/shop";
 import { CATEGORY_SLUGS, VEHICLE_CATEGORIES } from "@/lib/vehicle-category";
+import { AnimateIn } from "./AnimateIn";
 import { AppLink } from "./AppLink";
 
 export function SeoIntroSection() {
   return (
     <section className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-[720px] px-6 py-20 md:py-24">
+      <AnimateIn className="mx-auto max-w-[720px] px-6 py-20 md:py-24">
         <h2 className="text-center text-2xl font-medium tracking-tight md:text-3xl">
           ขายรถมือสองในลำปาง — ใกล้โซนบ้านฟ้อน
         </h2>
@@ -45,7 +46,7 @@ export function SeoIntroSection() {
             เราพร้อมช่วยหารถมือสองที่ตรงงบและความต้องการของคุณ
           </p>
         </div>
-      </div>
+      </AnimateIn>
     </section>
   );
 }

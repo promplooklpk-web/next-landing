@@ -1,10 +1,11 @@
 import { shop } from "@/data/shop";
+import { AnimateIn } from "./AnimateIn";
 import { PrimaryButton } from "./Buttons";
 
 export function ContactMap() {
   return (
     <section id="contact" className="border-t border-border bg-background">
-      <div className="mx-auto max-w-[680px] px-6 py-24 text-center md:py-32">
+      <AnimateIn className="mx-auto max-w-[680px] px-6 py-24 text-center md:py-32">
         <h2 className="text-3xl font-medium tracking-tight md:text-4xl">
           ติดต่อเรา
         </h2>
@@ -54,7 +55,7 @@ export function ContactMap() {
             นำทาง
           </PrimaryButton>
         </div>
-      </div>
+      </AnimateIn>
     </section>
   );
 }

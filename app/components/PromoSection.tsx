@@ -1,4 +1,5 @@
 import { shop } from "@/data/shop";
+import { AnimateIn } from "./AnimateIn";
 import { PrimaryButton } from "./Buttons";
 
 export function PromoSection() {
@@ -8,7 +9,7 @@ export function PromoSection() {
         className="pointer-events-none absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-transparent"
         aria-hidden
       />
-      <div className="relative mx-auto max-w-[680px] px-6 text-center">
+      <AnimateIn className="relative mx-auto max-w-[680px] px-6 text-center">
         <h2 className="text-3xl font-medium tracking-tight md:text-4xl">
           รับซื้อ-แลกเปลี่ยน
         </h2>
@@ -21,7 +22,7 @@ export function PromoSection() {
             โทรประเมินราคา
           </PrimaryButton>
         </div>
-      </div>
+      </AnimateIn>
     </section>
   );
 }
